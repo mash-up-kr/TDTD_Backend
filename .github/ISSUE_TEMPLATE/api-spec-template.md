@@ -12,22 +12,22 @@ assignees: ''
 
 ## Request
 
-`HTTP Method` /URI
+### `HTTP Method` /URI
 
 - Start Line
-  ```Bash
+  ```
   
   ```
 
 - Header
-  ```JSON
+  ```
   {
     "": ""
   }
   ```
 
 - Body
-  ```JSON
+  ```
   {
     "": ""
   }
@@ -36,19 +36,19 @@ assignees: ''
 ## Response
 
 - Status Line
-  ```Bash
+  ```
   
   ```
 
 - Header
-  ```JSON
+  ```
   {
     "": ""
   }
   ```
 
 - Body
-  ```JSON
+  ```
   {
     "": ""
   }
