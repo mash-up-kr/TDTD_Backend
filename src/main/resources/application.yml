@@ -24,16 +24,3 @@ spring:
     driverClassName: org.h2.Driver
 server:
   port: 8080
-
----
-
-spring:
-  config:
-      activate:
-        on-profile: prod
-  jpa:
-    show_sql: true
-    hibernate:
-      ddl-auto: none
-server:
-  port: 80
