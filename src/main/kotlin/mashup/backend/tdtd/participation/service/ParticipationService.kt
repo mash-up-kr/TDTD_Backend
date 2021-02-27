@@ -5,6 +5,7 @@ import mashup.backend.tdtd.participation.repository.ParticipationRepository
 import mashup.backend.tdtd.room.service.RoomService
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class ParticipationService(
@@ -12,10 +13,17 @@ class ParticipationService(
     private val userService: UserService,
     private val roomService: RoomService) {
 
+    @Transactional
     fun saveParticipation(deviceId: String, roomCode: String): Long {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
-        val participationId: Long = participationRepository.save(Participation(userId = userId, roomId = roomId)).id!!
-        return participationId;
+        return participationRepository.save(Participation(roomId = roomId, userId = userId)).id!!
+    }
+
+    @Transactional
+    fun deleteParticipation(deviceId: String, roomCode: String) {
+        val userId: Long = userService.getUserByDeviceId(deviceId).id!!
+        val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
+        participationRepository.deleteByRoomIdAndUserId(roomId, userId)
     }
 }
