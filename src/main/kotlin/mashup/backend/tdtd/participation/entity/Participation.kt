@@ -22,4 +22,9 @@ class Participation(
 
     @Column(nullable = false)
     var bookmark: Boolean = false
-) : BaseEntity()
+) : BaseEntity() {
+
+    fun updateBookmark(bookmark: Boolean) {
+        this.bookmark = bookmark
+    }
+}
