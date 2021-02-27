@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(private val userRepository : UserRepository) {
 
-    fun getUserByDeviceId(deviceId: String): User {
-        return userRepository.findByDeviceId(deviceId)!!
-    }
+    fun getUserByDeviceId(deviceId: String): User = userRepository.findByDeviceId(deviceId)!!
 
     fun isExistDeviceId(deviceId : String) : Boolean {
         return userRepository.findByDeviceId(deviceId) != null
