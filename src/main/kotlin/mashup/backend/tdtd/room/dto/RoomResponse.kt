@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 data class RoomResponse(
     val isHost: Boolean,
     val title: String?,
-    val room_code: String,
+    val roomCode: String,
     val isBookmark: Boolean,
-    val created_at: LocalDateTime
+    val createdAt: LocalDateTime
 )

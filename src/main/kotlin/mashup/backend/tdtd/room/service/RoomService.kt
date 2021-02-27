@@ -21,8 +21,7 @@ class RoomService(
     private val roomRepository: RoomRepository,
     private val participationRepository: ParticipationRepository,
     private val userService: UserService,
-    private val commentService: CommentService
-) {
+    private val commentService: CommentService) {
 
     fun createRoom(
         deviceId: String,
@@ -57,9 +56,9 @@ class RoomService(
             RoomResponse(
                 isHost = roomMap[participation.roomId]?.hostId == user.id,
                 title = roomMap[participation.roomId]?.title,
-                room_code = roomMap[participation.roomId]?.roomCode!!,
+                roomCode = roomMap[participation.roomId]?.roomCode!!,
                 isBookmark = participation.bookmark,
-                created_at = roomMap[participation.roomId]?.createdAt!!,
+                createdAt = roomMap[participation.roomId]?.createdAt!!,
             )
         }
     }
