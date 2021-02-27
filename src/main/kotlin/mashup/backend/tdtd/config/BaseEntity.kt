@@ -12,13 +12,13 @@ import javax.persistence.MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
 abstract class BaseEntity {
     @CreatedDate
-    @Column(name = "created_at" , nullable = false, updatable = false,  columnDefinition = "DATE")
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATE")
     var createdAt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
     @Column(name = "updated_at", columnDefinition = "DATE")
-    var updatedAt  : LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "deleted_At", columnDefinition = "DATE")
-    var deletedAt  : LocalDateTime? = null
+    var deletedAt: LocalDateTime? = null
 }

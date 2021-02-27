@@ -3,25 +3,19 @@ package mashup.backend.tdtd.user.entity
 import mashup.backend.tdtd.config.BaseEntity
 import javax.persistence.*
 
-@Table(name = "users")
+@Table(name = "participation")
 @Entity
-class User : BaseEntity() {
+class Participation : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
     @Column(nullable = false)
-    var deviceId: String = ""
+    var roomId: Long = 0
 
     @Column(nullable = false)
-    var pushAlarm: Boolean = false
+    var userId: Long = 0
 
-    @Column
-    var email: String? = null
-
-    @Column
-    var userName: String? = null
-
-    @Column
-    var profile: String? = null
+    @Column(nullable = false)
+    var bookmark: Boolean = false
 }
