@@ -23,5 +23,5 @@ class User(
     var userName: String? = null,
 
     @Column
-    var profile: String? = null
-) : BaseEntity ()
+    var profile: String? = null,
+) : BaseEntity()
