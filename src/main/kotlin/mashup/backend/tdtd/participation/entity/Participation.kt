@@ -1,8 +1,12 @@
 package mashup.backend.tdtd.participation.entity
 
 import mashup.backend.tdtd.config.BaseEntity
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import javax.persistence.*
 
+@SQLDelete(sql = "update participation set deleted_at=now() where id=?")
+@Where(clause = "deleted_at is null")
 @Table(name = "participation")
 @Entity
 class Participation(
