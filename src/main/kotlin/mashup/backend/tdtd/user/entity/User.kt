@@ -5,23 +5,23 @@ import javax.persistence.*
 
 @Table(name = "users")
 @Entity
-class User : BaseEntity() {
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    val id: Long? = null,
 
     @Column(nullable = false)
-    var deviceId: String = ""
+    var deviceId: String = "",
 
     @Column(nullable = false)
-    var pushAlarm: Boolean = false
+    var pushAlarm: Boolean = true,
 
     @Column
-    var email: String? = null
+    var email: String? = null,
 
     @Column
-    var userName: String? = null
+    var userName: String? = null,
 
     @Column
     var profile: String? = null
-}
+) : BaseEntity ()
