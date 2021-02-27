@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Table(name = "comments")
 @Entity
-class Comment : BaseEntity(){
+class Comment : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
