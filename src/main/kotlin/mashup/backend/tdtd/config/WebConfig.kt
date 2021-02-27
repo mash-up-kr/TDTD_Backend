@@ -11,9 +11,13 @@ class WebConfig (
     private val deviceIdInterceptor: DeviceIdInterceptor,
     private val userRegistrationInterceptor: UserRegistrationInterceptor
 ) : WebMvcConfigurer {
+    companion object {
+        const val USER_REGISTRATION_URL_PATH = "/api/v1/rooms/**"
+    }
+
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(deviceIdInterceptor).order(0)
-        registry.addInterceptor(userRegistrationInterceptor).addPathPatterns("/auth/user").order(1)
+        registry.addInterceptor(userRegistrationInterceptor).addPathPatterns(USER_REGISTRATION_URL_PATH).order(1)
         super.addInterceptors(registry)
     }
 }
