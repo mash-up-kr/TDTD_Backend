@@ -12,7 +12,7 @@ class UserController(
     private val participationService: ParticipationService) {
 
     @PostMapping("/{roomCode}")
-    fun joinUser(
+    fun joinUserInRoom(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
     ): ResponseEntity<Void> {
