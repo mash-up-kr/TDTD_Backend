@@ -23,4 +23,17 @@ class UserController(
         }
         return ResponseEntity.ok().build()
     }
+
+    @DeleteMapping("/{roomCode}")
+    fun leaveUserInRoom(
+        @RequestHeader("Device-Id") deviceId: String,
+        @PathVariable roomCode: String
+    ): ResponseEntity<Void> {
+        try {
+            participationService.deleteParticipation(deviceId, roomCode)
+        } catch (e: NullPointerException) {
+            return ResponseEntity.notFound().build()
+        }
+        return ResponseEntity.ok().build()
+    }
 }

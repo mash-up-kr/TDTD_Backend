@@ -4,4 +4,5 @@ import mashup.backend.tdtd.participation.entity.Participation
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ParticipationRepository : JpaRepository<Participation, Long> {
+    fun deleteByRoomIdAndUserId(roomId: Long, userId: Long)
 }
