@@ -5,32 +5,32 @@ import javax.persistence.*
 
 @Table(name = "comments")
 @Entity
-class Comment : BaseEntity() {
+class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    val id: Long? = null,
 
     @Column(nullable = false)
-    var roomId: Long = 0
+    var roomId: Long = 0,
 
     @Column(nullable = false)
-    var userId: Long = 0
+    var userId: Long = 0,
 
     @Column(nullable = false)
-    var nickname: String? = null
+    var nickname: String? = null,
 
     @Column
-    var text: String? = null
+    var text: String? = null,
 
     @Column
-    var voiceFileUrl: String? = null
+    var voiceFileUrl: String? = null,
 
-    @Column(nullable = false)
-    var stickerPointX: Double? = null
+    @Column(name = "sticker_point_x", nullable = false)
+    var stickerPointX: Double? = null,
 
-    @Column(nullable = false)
-    var stickerPointY: Double? = null
+    @Column(name = "sticker_point_y", nullable = false)
+    var stickerPointY: Double? = null,
 
     @Column(nullable = false)
     var isBlinded: Boolean = false
-}
+) : BaseEntity()
