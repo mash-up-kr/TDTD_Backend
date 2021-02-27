@@ -21,4 +21,17 @@ class BookmarkController(
         }
         return ResponseEntity.ok().build()
     }
+
+    @DeleteMapping("/{roomCode}")
+    fun removeBookmarkInRoom(
+        @RequestHeader("Device-Id") deviceId: String,
+        @PathVariable roomCode: String
+    ): ResponseEntity<Void> {
+        try {
+            bookmarkService.updateBookmarkStatus(deviceId, roomCode, false)
+        } catch (e: NullPointerException) {
+            return ResponseEntity.notFound().build()
+        }
+        return ResponseEntity.ok().build()
+    }
 }
