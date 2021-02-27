@@ -5,21 +5,21 @@ import javax.persistence.*
 
 @Table(name = "rooms")
 @Entity
-class Room : BaseEntity() {
+class Room(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    val id: Long? = null,
 
     @Column(nullable = false)
-    var hostId: Long = 0
+    var hostId: Long = 0,
 
     @Column(nullable = false)
-    var title: String = ""
+    var title: String = "",
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var type: Type = Type.TEXT
+    var type: RoomType = RoomType.TEXT,
 
     @Column(nullable = false)
-    val roomCode: String = ""
-}
+    val roomCode: String = "",
+) : BaseEntity()
