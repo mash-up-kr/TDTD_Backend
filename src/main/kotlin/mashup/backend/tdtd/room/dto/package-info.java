@@ -1,1 +1,0 @@
-package mashup.backend.tdtd.room.dto;

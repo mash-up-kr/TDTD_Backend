@@ -3,6 +3,9 @@ package mashup.backend.tdtd.room.service
 import mashup.backend.tdtd.common.util.UuidManager
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
 import mashup.backend.tdtd.room.dto.CreateRoomResponse
+import mashup.backend.tdtd.comment.dto.CommentResponse
+import mashup.backend.tdtd.comment.service.CommentService
+import mashup.backend.tdtd.room.dto.RoomDetailResponse
 import mashup.backend.tdtd.room.entity.Room
 import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
@@ -16,9 +19,11 @@ import org.springframework.stereotype.Service
 @Service
 class RoomService(
     private val roomRepository: RoomRepository,
+    private val participationRepository: ParticipationRepository,
     private val userService: UserService,
-private val participationRepository: ParticipationRepository,
+    private val commentService: CommentService
 ) {
+
     fun createRoom(
         deviceId: String,
         createRoomRequest: CreateRoomRequest,
@@ -57,5 +62,18 @@ private val participationRepository: ParticipationRepository,
                 created_at = roomMap[participation.roomId]?.createdAt!!,
             )
         }
+    }
+
+    fun getRoomDetailByRoomCode(deviceId: String, roomCode: String): RoomDetailResponse {
+        val room: Room = this.getRoomByRoomCode(roomCode)
+        val user: User = userService.getUserByDeviceId(deviceId)
+        val comments: List<CommentResponse> = commentService.getCommentListByRoomId(deviceId, room.id!!)
+
+        return RoomDetailResponse(
+            title = room.title,
+            type = room.type,
+            isHost = (room.hostId == user.id),
+            comments = comments
+        )
     }
 }
