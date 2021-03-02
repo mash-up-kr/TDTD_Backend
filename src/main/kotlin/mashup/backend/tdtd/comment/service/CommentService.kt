@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
-    private val userService: UserService
-) {
+    private val userService: UserService) {
+
     fun getCommentListByRoomId(deviceId: String, roomId: Long): List<CommentResponse> {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!;
         return commentRepository.findAllByRoomId(roomId).map {
