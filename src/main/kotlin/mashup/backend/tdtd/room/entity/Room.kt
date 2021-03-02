@@ -1,11 +1,15 @@
 package mashup.backend.tdtd.room.entity
 
 import mashup.backend.tdtd.config.BaseEntity
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import javax.persistence.*
 
+@SQLDelete(sql = "update rooms set deleted_at=now() where id=?")
+@Where(clause = "deleted_at is null")
 @Table(name = "rooms")
 @Entity
-class Room (
+class Room(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
@@ -21,5 +25,5 @@ class Room (
     var type: RoomType = RoomType.TEXT,
 
     @Column(nullable = false)
-    val roomCode: String = "",
+    val roomCode: String = ""
 ) : BaseEntity()
