@@ -85,7 +85,7 @@ class RoomService(
         val room: Room = this.getRoomByRoomCode(roomCode)
         userService.validateHostUser(userId, room.hostId)
         commentRepository.deleteAllByRoomId(room.id!!)
-        participationRepository.deleteAllByRoomId(room.id)
-        roomRepository.deleteById(room.id)
+        participationRepository.deleteAllByRoomId(room.id!!)
+        roomRepository.deleteById(room.id!!)
     }
 }
