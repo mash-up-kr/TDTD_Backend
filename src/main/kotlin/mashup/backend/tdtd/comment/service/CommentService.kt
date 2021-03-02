@@ -25,8 +25,4 @@ class CommentService(
             )
         }
     }
-
-    fun deleteAllByRoomId(roomId: Long) {
-        commentRepository.deleteAllByRoomId(roomId)
-    }
 }

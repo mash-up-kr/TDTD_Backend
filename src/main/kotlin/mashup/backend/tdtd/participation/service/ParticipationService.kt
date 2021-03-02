@@ -27,12 +27,4 @@ class ParticipationService(
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
         participationRepository.deleteByRoomIdAndUserId(roomId, userId)
     }
-
-    fun getAllByUserId(userId: Long): List<Participation> {
-        return participationRepository.findByUserId(userId)
-    }
-
-    fun deleteAllByRoomId(roomId: Long) {
-        participationRepository.deleteAllByRoomId(roomId)
-    }
 }

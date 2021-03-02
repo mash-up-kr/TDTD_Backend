@@ -38,17 +38,4 @@ class RoomController(
         val response: RoomDetailResponse = roomService.getRoomDetailByRoomCode(deviceId, roomCode)
         return ResponseEntity.ok().body(response)
     }
-
-    @DeleteMapping("/{roomCode}")
-    fun deleteRoom(
-        @RequestHeader("Device-Id") deviceId: String,
-        @PathVariable roomCode: String
-    ): ResponseEntity<Void> {
-        try {
-            roomService.deleteRoom(deviceId, roomCode)
-        } catch (e: Exception) {
-            return ResponseEntity.badRequest().build()
-        }
-        return ResponseEntity.ok().build()
-    }
 }
