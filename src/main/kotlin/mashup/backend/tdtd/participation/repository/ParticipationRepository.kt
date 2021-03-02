@@ -8,4 +8,5 @@ interface ParticipationRepository : JpaRepository<Participation, Long> {
     fun findByUserId(userId: Long): List<Participation>
     fun findByUserIdAndBookmark(userId: Long, bookmark: Boolean): List<Participation>
     fun deleteByRoomIdAndUserId(roomId: Long, userId: Long)
+    fun deleteAllByRoomId(roomId: Long)
 }

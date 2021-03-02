@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface CommentRepository : JpaRepository<Comment, Long> {
     fun findAllByRoomId(roomId: Long): List<Comment>
+    fun deleteAllByRoomId(roomId: Long)
 }

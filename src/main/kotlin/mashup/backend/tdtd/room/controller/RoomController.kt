@@ -3,15 +3,10 @@ package mashup.backend.tdtd.room.controller
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
 import mashup.backend.tdtd.room.dto.CreateRoomResponse
 import mashup.backend.tdtd.room.dto.RoomDetailResponse
+import mashup.backend.tdtd.room.dto.RoomResponse
 import mashup.backend.tdtd.room.service.RoomService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
-import mashup.backend.tdtd.room.dto.RoomResponse
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/api/v1/rooms")
 @RestController
@@ -42,5 +37,18 @@ class RoomController(
     ): ResponseEntity<RoomDetailResponse> {
         val response: RoomDetailResponse = roomService.getRoomDetailByRoomCode(deviceId, roomCode)
         return ResponseEntity.ok().body(response)
+    }
+
+    @DeleteMapping("/{roomCode}")
+    fun deleteRoom(
+        @RequestHeader("Device-Id") deviceId: String,
+        @PathVariable roomCode: String
+    ): ResponseEntity<Void> {
+        try {
+            roomService.deleteRoom(deviceId, roomCode)
+        } catch (e: Exception) {
+            return ResponseEntity.badRequest().build()
+        }
+        return ResponseEntity.ok().build()
     }
 }
