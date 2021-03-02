@@ -1,8 +1,12 @@
 package mashup.backend.tdtd.comment.entity
 
 import mashup.backend.tdtd.config.BaseEntity
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import javax.persistence.*
 
+@SQLDelete(sql = "update comments set deleted_at=now() where id=?")
+@Where(clause = "deleted_at is null")
 @Table(name = "comments")
 @Entity
 class Comment(

@@ -1,25 +1,28 @@
 package mashup.backend.tdtd.room.service
 
+import mashup.backend.tdtd.comment.dto.CommentResponse
+import mashup.backend.tdtd.comment.repository.CommentRepository
+import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.util.UuidManager
+import mashup.backend.tdtd.participation.entity.Participation
+import mashup.backend.tdtd.participation.repository.ParticipationRepository
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
 import mashup.backend.tdtd.room.dto.CreateRoomResponse
-import mashup.backend.tdtd.comment.dto.CommentResponse
-import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.room.dto.RoomDetailResponse
+import mashup.backend.tdtd.room.dto.RoomResponse
 import mashup.backend.tdtd.room.entity.Room
 import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
-import mashup.backend.tdtd.participation.entity.Participation
-import mashup.backend.tdtd.participation.repository.ParticipationRepository
-import mashup.backend.tdtd.room.dto.RoomResponse
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RoomService(
     private val roomRepository: RoomRepository,
     private val participationRepository: ParticipationRepository,
+    private val commentRepository: CommentRepository,
     private val userService: UserService,
     private val commentService: CommentService) {
 
@@ -74,5 +77,15 @@ class RoomService(
             isHost = (room.hostId == user.id),
             comments = comments
         )
+    }
+
+    @Transactional
+    fun deleteRoom(deviceId: String, roomCode: String) {
+        val userId: Long = userService.getUserByDeviceId(deviceId).id!!
+        val room: Room = this.getRoomByRoomCode(roomCode)
+        userService.validateHostUser(userId, room.hostId)
+        commentRepository.deleteAllByRoomId(room.id!!)
+        participationRepository.deleteAllByRoomId(room.id)
+        roomRepository.deleteById(room.id)
     }
 }
