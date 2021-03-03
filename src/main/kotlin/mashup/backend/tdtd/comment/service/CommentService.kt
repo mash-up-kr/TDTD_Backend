@@ -5,7 +5,6 @@ import mashup.backend.tdtd.comment.entity.Comment
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
-import java.lang.NullPointerException
 
 @Service
 class CommentService(
@@ -30,4 +29,19 @@ class CommentService(
 
     fun getCommentById(commentId: Long): Comment =
         commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
+
+    fun saveComment(roomId: Long, userId: Long, nickname: String,
+                    stickerPointX: Double, stickerPointY: Double
+    ): Comment = commentRepository.save(
+            Comment(
+                roomId = roomId,
+                userId = userId,
+                nickname = nickname,
+                stickerPointX = stickerPointX,
+                stickerPointY = stickerPointY
+            )
+        )
+
+    fun getCommentCountByRoomId(roomId: Long): Int =
+        commentRepository.countByRoomId(roomId = roomId)
 }

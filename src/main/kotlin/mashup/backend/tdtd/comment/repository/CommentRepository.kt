@@ -10,4 +10,5 @@ interface CommentRepository : JpaRepository<Comment, Long> {
     @Modifying(clearAutomatically = true)
     @Query("update Comment c set c.deletedAt=current_timestamp where c.roomId=:roomId")
     fun deleteAllByRoomId(roomId: Long)
+    fun countByRoomId(roomId: Long): Int
 }
