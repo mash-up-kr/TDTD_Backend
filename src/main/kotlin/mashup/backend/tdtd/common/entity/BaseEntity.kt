@@ -1,4 +1,4 @@
-package mashup.backend.tdtd.config
+package mashup.backend.tdtd.common.entity
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate

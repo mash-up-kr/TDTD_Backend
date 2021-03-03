@@ -1,4 +1,4 @@
-package mashup.backend.tdtd.config
+package mashup.backend.tdtd.common.entity
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

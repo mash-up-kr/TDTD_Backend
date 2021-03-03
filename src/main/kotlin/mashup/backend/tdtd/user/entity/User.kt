@@ -1,6 +1,6 @@
 package mashup.backend.tdtd.user.entity
 
-import mashup.backend.tdtd.config.BaseEntity
+import mashup.backend.tdtd.common.entity.BaseEntity
 import javax.persistence.*
 
 @Table(name = "users")
