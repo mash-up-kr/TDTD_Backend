@@ -27,4 +27,10 @@ class ParticipationService(
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
         participationRepository.deleteByRoomIdAndUserId(roomId, userId)
     }
+
+    fun getParticipationRandomLimitOne() =
+        participationRepository.findByRandomLimitOne()
+
+    fun getParticipationListByRoomId(roomId: Long) =
+        participationRepository.findAllByRoomId(roomId)
 }
