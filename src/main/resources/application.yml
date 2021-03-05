@@ -24,3 +24,6 @@ spring:
     driverClassName: org.h2.Driver
 server:
   port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
