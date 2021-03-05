@@ -6,6 +6,7 @@ import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
@@ -55,6 +56,7 @@ class CommentService(
         commentRepository.deleteById(commentId)
     }
 
-
+    @Transactional
+    fun deleteCommentByHost(commentId: Long) =
+        commentRepository.deleteById(commentId)
 }
-
