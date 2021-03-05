@@ -1,6 +1,7 @@
 package mashup.backend.tdtd.comment.controller
 
 import mashup.backend.tdtd.comment.service.CommentService
+import mashup.backend.tdtd.common.dto.ExceptionResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -13,8 +14,10 @@ class CommentController(
     fun deleteComment (
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable("commentId") commentId: Long,
-    ) : ResponseEntity<Void> {
-        commentService.deleteCommentByCommentId(commentId)
-        return ResponseEntity.ok().build()
+    ) : ResponseEntity<Any> {
+        return try {
+            commentService.deleteCommentByCommentId(deviceId, commentId)
+            ResponseEntity.ok().build()
+        } catch (e: Exception) { ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!)) }
     }
 }
