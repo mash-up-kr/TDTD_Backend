@@ -47,7 +47,14 @@ class CommentService(
         commentRepository.countByRoomId(roomId = roomId)
 
     @Transactional
-    fun deleteCommentByCommentId(commentId: Long) =
+    fun deleteCommentByCommentId(deviceId: String, commentId: Long) {
+        val userId: Long = userService.getUserByDeviceId(deviceId).id!!
+        val comment: Comment = getCommentById(commentId)
+        if(userId != comment.userId)
+            throw IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다!")
         commentRepository.deleteById(commentId)
+    }
+
+
 }
 
