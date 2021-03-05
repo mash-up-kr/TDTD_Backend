@@ -5,7 +5,7 @@ import mashup.backend.tdtd.comment.entity.Comment
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
-
+import org.springframework.transaction.annotation.Transactional
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
@@ -27,6 +27,7 @@ class CommentService(
         }
     }
 
+
     fun getCommentById(commentId: Long): Comment =
         commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
 
@@ -44,4 +45,9 @@ class CommentService(
 
     fun getCommentCountByRoomId(roomId: Long): Int =
         commentRepository.countByRoomId(roomId = roomId)
+
+    @Transactional
+    fun deleteCommentByCommentId(commentId: Long) =
+        commentRepository.deleteById(commentId)
 }
+
