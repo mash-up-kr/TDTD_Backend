@@ -9,7 +9,7 @@ interface ParticipationRepository : JpaRepository<Participation, Long> {
     fun findByRoomIdAndUserId(roomId: Long, userId: Long): Participation?
     fun findByUserId(userId: Long): List<Participation>
     fun findByUserIdAndBookmark(userId: Long, bookmark: Boolean): List<Participation>
-    @Query(value = "select * from Participation group by rand() LIMIT 1", nativeQuery = true)
+    @Query(value = "select * from participation group by rand() LIMIT 1", nativeQuery = true)
     fun findByRandomLimitOne(): Participation
     fun findAllByRoomId(roomId: Long): List<Participation>
     fun deleteByRoomIdAndUserId(roomId: Long, userId: Long)
