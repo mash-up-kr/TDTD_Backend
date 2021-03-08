@@ -17,6 +17,8 @@ import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.lang.IllegalArgumentException
+import java.security.InvalidParameterException
 
 @Service
 class RoomService(
@@ -65,6 +67,9 @@ class RoomService(
             )
         }
     }
+
+    fun getRoomById(roomId: Long): Room =
+        roomRepository.findById(roomId).orElseThrow{ IllegalArgumentException() }
 
     fun getRoomDetailByRoomCode(deviceId: String, roomCode: String): RoomDetailResponse {
         val room: Room = this.getRoomByRoomCode(roomCode)

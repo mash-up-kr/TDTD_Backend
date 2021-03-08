@@ -1,6 +1,6 @@
 package mashup.backend.tdtd.participation.entity
 
-import mashup.backend.tdtd.config.BaseEntity
+import mashup.backend.tdtd.common.entity.BaseEntity
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
 import javax.persistence.*

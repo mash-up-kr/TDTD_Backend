@@ -5,7 +5,7 @@ import mashup.backend.tdtd.comment.entity.Comment
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
-import java.lang.NullPointerException
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
@@ -28,6 +28,35 @@ class CommentService(
         }
     }
 
+
     fun getCommentById(commentId: Long): Comment =
         commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
+
+    fun saveComment(roomId: Long, userId: Long, nickname: String,
+                    stickerPointX: Double, stickerPointY: Double
+    ): Comment = commentRepository.save(
+            Comment(
+                roomId = roomId,
+                userId = userId,
+                nickname = nickname,
+                stickerPointX = stickerPointX,
+                stickerPointY = stickerPointY
+            )
+        )
+
+    fun getCommentCountByRoomId(roomId: Long): Int =
+        commentRepository.countByRoomId(roomId = roomId)
+
+    @Transactional
+    fun deleteCommentByCommentId(deviceId: String, commentId: Long) {
+        val userId: Long = userService.getUserByDeviceId(deviceId).id!!
+        val comment: Comment = getCommentById(commentId)
+        if(userId != comment.userId)
+            throw IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다!")
+        commentRepository.deleteById(commentId)
+    }
+
+    @Transactional
+    fun deleteCommentByHost(commentId: Long) =
+        commentRepository.deleteById(commentId)
 }
