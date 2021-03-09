@@ -19,7 +19,6 @@ import mashup.backend.tdtd.user.service.UserService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 @Service
 class RoomService(
@@ -44,7 +43,9 @@ class RoomService(
                 shareUrl = DeepLinkGenerator.getDeepLink(roomCode)
             )
         )
-
+        participationRepository.save(
+            Participation(roomId = savedRoom.id!!, userId = savedRoom.hostId)
+        )
         return CreateRoomResponse(roomCode = savedRoom.roomCode)
     }
 
@@ -99,10 +100,8 @@ class RoomService(
     }
 
     @Transactional
-    fun deleteRoom(deviceId: String, roomCode: String) {
-        val userId: Long = userService.getUserByDeviceId(deviceId).id!!
+    fun deleteRoom(roomCode: String) {
         val room: Room = this.getRoomByRoomCode(roomCode)
-        userService.validateHostUser(userId, room.hostId)
         commentRepository.deleteAllByRoomId(room.id!!)
         participationRepository.deleteAllByRoomId(room.id!!)
         roomRepository.deleteById(room.id!!)

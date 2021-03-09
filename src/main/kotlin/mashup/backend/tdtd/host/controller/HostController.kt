@@ -17,12 +17,12 @@ class HostController(
     fun deleteRoom(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Any> {
         return try {
-            roomService.deleteRoom(deviceId, roomCode)
+            roomService.deleteRoom(roomCode)
             ResponseEntity.ok().build()
         } catch (e: Exception) {
-            ResponseEntity.badRequest().build()
+            ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!))
         }
     }
 
@@ -31,10 +31,10 @@ class HostController(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable commentId: Long
     ): ResponseEntity<Any> {
-        return try{
+        return try {
             commentService.deleteCommentByHost(commentId)
             ResponseEntity.ok().build()
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!))
         }
     }
