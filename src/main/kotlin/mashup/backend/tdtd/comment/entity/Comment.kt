@@ -21,7 +21,7 @@ class Comment(
     var userId: Long = 0,
 
     @Column(nullable = false)
-    var nickname: String? = null,
+    var nickname: String = "admin",
 
     @Column
     var text: String? = null,
@@ -30,13 +30,21 @@ class Comment(
     var voiceFileUrl: String? = null,
 
     @Column(name = "sticker_point_x", nullable = false)
-    var stickerPointX: Double? = null,
+    var stickerPointX: Double = 0.0,
 
     @Column(name = "sticker_point_y", nullable = false)
-    var stickerPointY: Double? = null,
+    var stickerPointY: Double = 0.0,
 
     @Column(nullable = false)
-    var isBlinded: Boolean = false
+    var stickerAngle: Int = 0,
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var stickerColor: StickerColorType = StickerColorType.RED,
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    var isBlinded: Boolean = false,
+
 ) : BaseEntity() {
 
     fun changeBlindState(state: Boolean) {

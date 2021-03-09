@@ -20,7 +20,7 @@ class Participation(
     @Column(nullable = false)
     var userId: Long = 0,
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     var bookmark: Boolean = false
 ) : BaseEntity() {
 

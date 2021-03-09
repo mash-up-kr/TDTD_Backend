@@ -1,5 +1,6 @@
 package mashup.backend.tdtd.common.util
 
+import mashup.backend.tdtd.comment.entity.StickerColorType
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.service.ParticipationService
@@ -33,6 +34,8 @@ class SeedDataInitializer(
         val participationRange = (1..10)
         val reportRange = (1..100)
         val commentRange = (1..1000)
+        val stickerColorTypeRange = (0..6)
+        val stickerAngleRange = (-10..10)
 
         const val PARTICIPATION_RATE = 6
         const val STICKER_AREA_HEIGHT = 146
@@ -42,7 +45,7 @@ class SeedDataInitializer(
         const val CHARACTER_LIMIT_IN_ROW = 3
         const val CHARACTER_HEIGHT = 110
         const val CHARACTER_WIDTH = 88
-        const val REPORT_RATE = 18
+        const val REPORT_RATE = 10
     }
 
     override fun run(vararg args: String?) {
@@ -90,7 +93,9 @@ class SeedDataInitializer(
                 roomId = randomParticipationInfo.roomId,
                 nickname = userInfo.userName!!,
                 stickerPointX = pointX,
-                stickerPointY = pointY
+                stickerPointY = pointY,
+                stickerAngle = stickerAngleRange.random(),
+                stickerColor = StickerColorType.values()[stickerColorTypeRange.random()]
             )
         }
     }
