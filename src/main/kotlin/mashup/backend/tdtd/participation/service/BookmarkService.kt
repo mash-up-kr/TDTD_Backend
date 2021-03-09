@@ -26,8 +26,9 @@ class BookmarkService(
         return participationList.map { participation ->
             RoomListResponse(
                 isHost = roomMap[participation.roomId]?.hostId == userId,
-                title = roomMap[participation.roomId]?.title,
+                title = roomMap[participation.roomId]?.title!!,
                 roomCode = roomMap[participation.roomId]?.roomCode!!,
+                shareUrl = roomMap[participation.roomId]?.shareUrl!!,
                 isBookmark = participation.bookmark,
                 createdAt = roomMap[participation.roomId]?.createdAt!!,
             )
