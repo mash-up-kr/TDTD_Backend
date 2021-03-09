@@ -29,9 +29,11 @@ class Comment(
     @Column
     var voiceFileUrl: String? = null,
 
+    // 추후 수정으로 삭제될 수 있음
     @Column(name = "sticker_point_x", nullable = false)
     var stickerPointX: Double = 0.0,
 
+    // 추후 수정으로 삭제될 수 있음
     @Column(name = "sticker_point_y", nullable = false)
     var stickerPointY: Double = 0.0,
 

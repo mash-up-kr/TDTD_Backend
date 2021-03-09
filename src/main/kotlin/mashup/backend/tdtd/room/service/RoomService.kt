@@ -16,6 +16,7 @@ import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
@@ -47,10 +48,6 @@ class RoomService(
         return CreateRoomResponse(roomCode = savedRoom.roomCode)
     }
 
-    fun getRoomByRoomCode(roomCode: String): Room {
-        return roomRepository.findByRoomCode(roomCode)!!
-    }
-
     fun getRooms(deviceId: String): List<RoomListResponse> {
         val user: User = userService.getUserByDeviceId(deviceId)
         val participationList: List<Participation> = participationRepository.findByUserId(user.id!!)
@@ -69,20 +66,36 @@ class RoomService(
         }
     }
 
+    fun getRoomByRoomCode(roomCode: String): Room =
+        roomRepository.findByRoomCode(roomCode) ?: throw NoSuchElementException("The room code does not exist.")
+
     fun getRoomById(roomId: Long): Room =
-        roomRepository.findById(roomId).orElseThrow{ IllegalArgumentException() }
+        roomRepository.findByIdOrNull(roomId) ?: throw NoSuchElementException("The room code does not exist.")
 
     fun getRoomDetailByRoomCode(deviceId: String, roomCode: String): RoomDetailResponse {
         val room: Room = this.getRoomByRoomCode(roomCode)
         val user: User = userService.getUserByDeviceId(deviceId)
-        val comments: List<CommentResponse> = commentService.getCommentListByRoomId(deviceId, room.id!!)
+
+        if (isParticipationInRoom(room.id!!, user.id!!).not())
+            throw NoSuchElementException("This user not participating in this room.")
+
+        val comments: List<CommentResponse> = commentService.getCommentListByRoomId(user.id!!, room.id!!)
 
         return RoomDetailResponse(
             title = room.title,
             type = room.type,
             isHost = (room.hostId == user.id),
+            shareUrl = room.shareUrl,
             comments = comments
         )
+    }
+
+    fun isParticipationInRoom(roomId: Long, userId: Long): Boolean {
+        val participationList: List<Participation> = participationRepository.findAllByRoomId(roomId)
+        for (p in participationList) {
+            if (userId == p.userId) return true
+        }
+        return false
     }
 
     @Transactional

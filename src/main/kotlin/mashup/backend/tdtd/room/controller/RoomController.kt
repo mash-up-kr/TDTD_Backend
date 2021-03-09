@@ -1,5 +1,6 @@
 package mashup.backend.tdtd.room.controller
 
+import mashup.backend.tdtd.common.dto.ExceptionResponse
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
 import mashup.backend.tdtd.room.dto.CreateRoomResponse
 import mashup.backend.tdtd.room.dto.RoomDetailResponse
@@ -34,8 +35,12 @@ class RoomController(
     fun getRoomDetail(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
-    ): ResponseEntity<RoomDetailResponse> {
-        val response: RoomDetailResponse = roomService.getRoomDetailByRoomCode(deviceId, roomCode)
-        return ResponseEntity.ok().body(response)
+    ): ResponseEntity<Any> {
+        return try {
+            val response: RoomDetailResponse = roomService.getRoomDetailByRoomCode(deviceId, roomCode)
+            ResponseEntity.ok().body(response)
+        } catch(e: Exception) {
+            ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!))
+        }
     }
 }
