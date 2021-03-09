@@ -1,7 +1,7 @@
 package mashup.backend.tdtd.participation.controller
 
 import mashup.backend.tdtd.participation.service.BookmarkService
-import mashup.backend.tdtd.room.dto.RoomResponse
+import mashup.backend.tdtd.room.dto.RoomListResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -13,9 +13,9 @@ class BookmarkController(
     @GetMapping
     fun getBookmarkedRooms(
         @RequestHeader("Device-Id") deviceId: String
-    ): ResponseEntity<List<RoomResponse>> {
-        val response: List<RoomResponse> = bookmarkService.getBookmarkedRooms(deviceId)
-        return ResponseEntity.ok().body(response)
+    ): ResponseEntity<List<RoomListResponse>> {
+        val listResponse: List<RoomListResponse> = bookmarkService.getBookmarkedRooms(deviceId)
+        return ResponseEntity.ok().body(listResponse)
     }
 
     @PostMapping("/{roomCode}")

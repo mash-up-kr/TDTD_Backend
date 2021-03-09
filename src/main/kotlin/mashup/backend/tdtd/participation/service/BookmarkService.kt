@@ -2,7 +2,7 @@ package mashup.backend.tdtd.participation.service
 
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
-import mashup.backend.tdtd.room.dto.RoomResponse
+import mashup.backend.tdtd.room.dto.RoomListResponse
 import mashup.backend.tdtd.room.entity.Room
 import mashup.backend.tdtd.room.repository.RoomRepository
 import mashup.backend.tdtd.room.service.RoomService
@@ -17,14 +17,14 @@ class BookmarkService(
     private val userService: UserService,
     private val roomService: RoomService) {
 
-    fun getBookmarkedRooms(deviceId: String): List<RoomResponse> {
+    fun getBookmarkedRooms(deviceId: String): List<RoomListResponse> {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val participationList: List<Participation> = participationRepository.findByUserIdAndBookmark(userId!!, true)
         val roomIdList: List<Long> = participationList.map { it.roomId }.toList()
         val roomList: List<Room> = roomRepository.findByIdIn(roomIdList)
         val roomMap: Map<Long, Room> = roomList.map { it.id!! to it }.toMap()
         return participationList.map { participation ->
-            RoomResponse(
+            RoomListResponse(
                 isHost = roomMap[participation.roomId]?.hostId == userId,
                 title = roomMap[participation.roomId]?.title,
                 roomCode = roomMap[participation.roomId]?.roomCode!!,

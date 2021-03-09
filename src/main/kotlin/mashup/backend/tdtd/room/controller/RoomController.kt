@@ -3,7 +3,7 @@ package mashup.backend.tdtd.room.controller
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
 import mashup.backend.tdtd.room.dto.CreateRoomResponse
 import mashup.backend.tdtd.room.dto.RoomDetailResponse
-import mashup.backend.tdtd.room.dto.RoomResponse
+import mashup.backend.tdtd.room.dto.RoomListResponse
 import mashup.backend.tdtd.room.service.RoomService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,9 +16,9 @@ class RoomController(
     @GetMapping
     fun getRooms(
         @RequestHeader("Device-Id") deviceId: String
-    ): ResponseEntity<List<RoomResponse>> {
-        val response: List<RoomResponse> = roomService.getRooms(deviceId)
-        return ResponseEntity.ok().body(response)
+    ): ResponseEntity<List<RoomListResponse>> {
+        val listResponse: List<RoomListResponse> = roomService.getRooms(deviceId)
+        return ResponseEntity.ok().body(listResponse)
     }
 
     @PostMapping
