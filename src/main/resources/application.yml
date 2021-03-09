@@ -23,7 +23,7 @@ spring:
     password:
     driverClassName: org.h2.Driver
 server:
-  port: 8080
+  port: 80 #다시 8080으로 바꿀 것!
   error:
     include-message: always
     include-binding-errors: always
