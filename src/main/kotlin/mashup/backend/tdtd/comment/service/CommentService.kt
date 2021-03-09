@@ -11,24 +11,23 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
-    private val userService: UserService) {
+    private val userService: UserService,
+) {
 
-    fun getCommentListByRoomId(deviceId: String, roomId: Long): List<CommentResponse> {
-        val userId: Long = userService.getUserByDeviceId(deviceId).id!!;
-        return commentRepository.findAllByRoomId(roomId).map {
+    fun getCommentListByRoomId(userId: Long, roomId: Long): List<CommentResponse> {
+        return commentRepository.findAllByRoomIdAndIsBlindedIsFalse(roomId).map {
             CommentResponse(
                 id = it.id!!,
                 isMine = userId == it.userId,
                 nickname = it.nickname,
                 text = it.text,
                 voiceFileUrl = it.voiceFileUrl,
-                stickerPointX = it.stickerPointX,
-                stickerPointY = it.stickerPointY,
+                stickerColor = it.stickerColor,
+                stickerAngle = it.stickerAngle,
                 createdAt = it.createdAt
             )
         }
     }
-
 
     fun getCommentById(commentId: Long): Comment =
         commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
@@ -56,7 +55,7 @@ class CommentService(
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val comment: Comment = getCommentById(commentId)
         if(userId != comment.userId)
-            throw IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다!")
+            throw IllegalArgumentException("Can't delete other people's comments.")
         commentRepository.deleteById(commentId)
     }
 
