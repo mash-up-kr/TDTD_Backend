@@ -2,6 +2,7 @@ package mashup.backend.tdtd.comment.service
 
 import mashup.backend.tdtd.comment.dto.CommentResponse
 import mashup.backend.tdtd.comment.entity.Comment
+import mashup.backend.tdtd.comment.entity.StickerColorType
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
@@ -18,11 +19,11 @@ class CommentService(
             CommentResponse(
                 id = it.id!!,
                 isMine = userId == it.userId,
-                nickname = it.nickname!!,
+                nickname = it.nickname,
                 text = it.text,
                 voiceFileUrl = it.voiceFileUrl,
-                stickerPointX = it.stickerPointX!!,
-                stickerPointY = it.stickerPointY!!,
+                stickerPointX = it.stickerPointX,
+                stickerPointY = it.stickerPointY,
                 createdAt = it.createdAt
             )
         }
@@ -33,14 +34,17 @@ class CommentService(
         commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
 
     fun saveComment(roomId: Long, userId: Long, nickname: String,
-                    stickerPointX: Double, stickerPointY: Double
+                    stickerPointX: Double, stickerPointY: Double,
+                    stickerAngle: Int, stickerColor: StickerColorType,
     ): Comment = commentRepository.save(
             Comment(
                 roomId = roomId,
                 userId = userId,
                 nickname = nickname,
                 stickerPointX = stickerPointX,
-                stickerPointY = stickerPointY
+                stickerPointY = stickerPointY,
+                stickerAngle = stickerAngle,
+                stickerColor = stickerColor
             )
         )
 

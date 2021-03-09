@@ -3,6 +3,7 @@ package mashup.backend.tdtd.room.service
 import mashup.backend.tdtd.comment.dto.CommentResponse
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.comment.service.CommentService
+import mashup.backend.tdtd.common.util.DeepLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
@@ -26,25 +27,25 @@ class RoomService(
     private val participationRepository: ParticipationRepository,
     private val commentRepository: CommentRepository,
     private val userService: UserService,
-    private val commentService: CommentService) {
+    private val commentService: CommentService,
+) {
 
     fun createRoom(
         deviceId: String,
         createRoomRequest: CreateRoomRequest,
     ): CreateRoomResponse {
-
+        val roomCode: String = UuidManager.getBase64Uuid()
         val savedRoom: Room = roomRepository.save(
             Room(
                 hostId = userService.getUserByDeviceId(deviceId).id!!,
                 title = createRoomRequest.title,
                 type = RoomType.valueOf(createRoomRequest.type),
-                roomCode = UuidManager.getBase64Uuid(),
+                roomCode = roomCode,
+                shareUrl = DeepLinkGenerator.getDeepLink(roomCode)
             )
         )
 
-        return CreateRoomResponse(
-            roomCode = savedRoom.roomCode
-        )
+        return CreateRoomResponse(roomCode = savedRoom.roomCode)
     }
 
     fun getRoomByRoomCode(roomCode: String): Room {
