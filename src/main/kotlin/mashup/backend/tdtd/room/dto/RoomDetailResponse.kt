@@ -12,5 +12,6 @@ data class RoomDetailResponse (
     val type: Enum<RoomType>,
     @get:JsonProperty("is_host")
     val isHost: Boolean,
-    var comments: List<CommentResponse>
+    val shareUrl: String,
+    var comments: List<CommentResponse>,
 )

@@ -13,7 +13,7 @@ class User(
     @Column(nullable = false)
     var deviceId: String = "",
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     var pushAlarm: Boolean = true,
 
     @Column

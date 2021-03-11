@@ -3,7 +3,6 @@ package mashup.backend.tdtd.config.interceptor
 import mashup.backend.tdtd.comment.entity.Comment
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.entity.ApiType
-import mashup.backend.tdtd.room.entity.Room
 import mashup.backend.tdtd.room.service.RoomService
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService

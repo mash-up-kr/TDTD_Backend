@@ -10,10 +10,11 @@ spring:
       on-profile: local
   jpa:
     show_sql: true
-#    hibernate:
-#      ddl-auto: update
     session:
       store-type: jdbc
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   h2:
     console:
       enabled: true
