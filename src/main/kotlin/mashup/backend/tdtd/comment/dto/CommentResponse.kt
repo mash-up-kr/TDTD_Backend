@@ -7,7 +7,7 @@ import mashup.backend.tdtd.comment.entity.StickerColorType
 import java.time.LocalDateTime
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
-data class CommentResponse (
+data class CommentResponse(
     val id: Long,
     @get:JsonProperty("is_mine")
     val isMine: Boolean,

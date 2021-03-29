@@ -47,7 +47,7 @@ class Comment(
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     var isBlinded: Boolean = false,
 
-) : BaseEntity() {
+    ) : BaseEntity() {
 
     fun changeBlindState(state: Boolean) {
         this.isBlinded = state
