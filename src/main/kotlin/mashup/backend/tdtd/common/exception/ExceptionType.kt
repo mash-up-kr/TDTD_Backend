@@ -17,10 +17,11 @@ enum class ExceptionType(
 
     NOT_FOUND(4040, "Not Found"),
     USER_NOT_FOUND(4041, "The user does not exist."),
-    ROOM_NOT_FOUND(4042, "The room does not exist."),
-    COMMENT_NOT_FOUND(4043, "The comment does not exist."),
-    PARTICIPATION_NOT_FOUND(4044, "This user not participating in this room."),
-    ROOM_CODE_NOT_FOUND(4045, "The room code does not exist."),
+    USER_DEVICE_NOT_FOUND(4042, "The device id does not exist."),
+    ROOM_NOT_FOUND(4043, "The room does not exist."),
+    ROOM_CODE_NOT_FOUND(4044, "The room code does not exist."),
+    COMMENT_NOT_FOUND(4045, "The comment does not exist."),
+    PARTICIPATION_NOT_FOUND(4046, "This user not participating in this room."),
 
     UNEXPECTED(5000, "This request cannot be processed.")
 }

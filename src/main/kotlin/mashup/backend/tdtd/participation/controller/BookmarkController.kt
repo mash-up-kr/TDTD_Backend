@@ -1,46 +1,43 @@
 package mashup.backend.tdtd.participation.controller
 
+import mashup.backend.tdtd.common.entity.ResponseWrapper
 import mashup.backend.tdtd.participation.service.BookmarkService
 import mashup.backend.tdtd.room.dto.RoomListResponse
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/v1/bookmarks")
 @RestController
 class BookmarkController(
-    private val bookmarkService: BookmarkService) {
+    private val bookmarkService: BookmarkService
+) {
+    companion object {
+        const val BOOKMARKED = true
+        const val UNMARKED = false
+    }
 
     @GetMapping
     fun getBookmarkedRooms(
         @RequestHeader("Device-Id") deviceId: String
-    ): ResponseEntity<List<RoomListResponse>> {
+    ): ResponseWrapper<List<RoomListResponse>> {
         val listResponse: List<RoomListResponse> = bookmarkService.getBookmarkedRooms(deviceId)
-        return ResponseEntity.ok().body(listResponse)
+        return ResponseWrapper.wrappedSuccessResponse(listResponse)
     }
 
     @PostMapping("/{roomCode}")
     fun addBookmarkToRoom(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
-    ): ResponseEntity<Void> {
-        try {
-            bookmarkService.updateBookmarkStatus(deviceId, roomCode, true)
-        } catch (e: NullPointerException) {
-            return ResponseEntity.notFound().build()
-        }
-        return ResponseEntity.ok().build()
+    ): ResponseWrapper<Unit> {
+        bookmarkService.updateBookmarkStatus(deviceId, roomCode, BOOKMARKED)
+        return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 
     @DeleteMapping("/{roomCode}")
     fun removeBookmarkInRoom(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
-    ): ResponseEntity<Void> {
-        try {
-            bookmarkService.updateBookmarkStatus(deviceId, roomCode, false)
-        } catch (e: NullPointerException) {
-            return ResponseEntity.notFound().build()
-        }
-        return ResponseEntity.ok().build()
+    ): ResponseWrapper<Unit> {
+        bookmarkService.updateBookmarkStatus(deviceId, roomCode, UNMARKED)
+        return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 }
