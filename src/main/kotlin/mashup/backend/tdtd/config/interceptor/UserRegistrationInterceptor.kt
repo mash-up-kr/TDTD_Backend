@@ -14,9 +14,9 @@ class UserRegistrationInterceptor(private val userService: UserService) : Handle
     }
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if((request.method == HttpMethod.GET.name).not()) return true;
-        val deviceId : String = request.getHeader(DEVICE_ID_KEY_IN_HEADER)
-        if(userService.isExistDeviceId(deviceId).not()) {
+        if ((request.method == HttpMethod.GET.name).not()) return true
+        val deviceId: String = request.getHeader(DEVICE_ID_KEY_IN_HEADER)
+        if (userService.isExistDeviceId(deviceId).not()) {
             userService.createUser(deviceId)
         }
         return true

@@ -1,0 +1,24 @@
+package mashup.backend.tdtd.common.exception
+
+enum class ExceptionType(
+    var code: Int,
+    var message: String
+) {
+    BAD_REQUEST(4000, "Bad Request"),
+    DEVICE_BAD_REQUEST(4001, "Device-Id is not included."),
+    WRONG_PATH_BAD_REQUEST(4002, "The request was sent with the wrong path."),
+
+    UNAUTHORIZED(4010, "Unauthorized"),
+    USER_UNAUTHORIZED(4011, ""),
+
+    FORBIDDEN(4030, "Forbidden"),
+    NON_HOST_USER_FORBIDDEN(4031, "Only hosts can be requested."),
+
+    NOT_FOUND(4040, "Not Found"),
+    USER_NOT_FOUND(4041, "User does not exist."),
+    ROOM_NOT_FOUND(4042, "Room does not exist."),
+    COMMENT_NOT_FOUND(4043, "Comment does not exist."),
+    PARTICIPATION_NOT_FOUND(4044, "This user not participating in this room."),
+
+    UNEXPECTED(5000, "This request cannot be processed.")
+}

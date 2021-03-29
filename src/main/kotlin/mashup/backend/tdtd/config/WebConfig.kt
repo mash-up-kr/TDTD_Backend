@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class WebConfig (
+class WebConfig(
     private val deviceIdInterceptor: DeviceIdInterceptor,
     private val userRegistrationInterceptor: UserRegistrationInterceptor,
     private val authenticationHostInterceptor: AuthenticationHostInterceptor
@@ -19,9 +19,14 @@ class WebConfig (
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(deviceIdInterceptor).order(0)
-        registry.addInterceptor(userRegistrationInterceptor).addPathPatterns(USER_REGISTRATION_URL_PATH).order(1)
-        registry.addInterceptor(authenticationHostInterceptor).addPathPatterns(HOST_ONLY_URL_PATH).order(1)
+        registry.addInterceptor(deviceIdInterceptor)
+            .addPathPatterns("/**")
+            .excludePathPatterns("/error", "/api/error")
+            .order(0)
+        registry.addInterceptor(userRegistrationInterceptor)
+            .addPathPatterns(USER_REGISTRATION_URL_PATH).order(1)
+        registry.addInterceptor(authenticationHostInterceptor)
+            .addPathPatterns(HOST_ONLY_URL_PATH).order(1)
         super.addInterceptors(registry)
     }
 }
