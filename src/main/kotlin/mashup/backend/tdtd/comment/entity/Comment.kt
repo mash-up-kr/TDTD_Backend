@@ -45,9 +45,8 @@ class Comment(
     var stickerColor: StickerColorType = StickerColorType.RED,
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    var isBlinded: Boolean = false,
-
-    ) : BaseEntity() {
+    var isBlinded: Boolean = false
+) : BaseEntity() {
 
     fun changeBlindState(state: Boolean) {
         this.isBlinded = state

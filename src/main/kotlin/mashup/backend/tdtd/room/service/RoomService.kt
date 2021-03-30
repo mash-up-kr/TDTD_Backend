@@ -75,14 +75,11 @@ class RoomService(
         roomRepository.findById(roomId).orElseThrow { NotFoundException(ExceptionType.ROOM_NOT_FOUND) }
 
     fun getRoomDetailByRoomCode(deviceId: String, roomCode: String): RoomDetailResponse {
-        val room: Room = this.getRoomByRoomCode(roomCode)
+        val room: Room = getRoomByRoomCode(roomCode)
         val user: User = userService.getUserByDeviceId(deviceId)
-
         if (isParticipationInRoom(room.id!!, user.id!!).not())
             throw NotFoundException(ExceptionType.PARTICIPATION_NOT_FOUND)
-
         val comments: List<CommentResponse> = commentService.getCommentListByRoomId(user.id!!, room.id!!)
-
         return RoomDetailResponse(
             title = room.title,
             type = room.type,
