@@ -3,6 +3,8 @@ package mashup.backend.tdtd.room.service
 import mashup.backend.tdtd.comment.dto.CommentResponse
 import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.comment.service.CommentService
+import mashup.backend.tdtd.common.exception.ExceptionType
+import mashup.backend.tdtd.common.exception.NotFoundException
 import mashup.backend.tdtd.common.util.DeepLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
 import mashup.backend.tdtd.participation.entity.Participation
@@ -16,7 +18,6 @@ import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -68,20 +69,17 @@ class RoomService(
     }
 
     fun getRoomByRoomCode(roomCode: String): Room =
-        roomRepository.findByRoomCode(roomCode) ?: throw NoSuchElementException("The room code does not exist.")
+        roomRepository.findByRoomCode(roomCode) ?: throw NotFoundException(ExceptionType.ROOM_CODE_NOT_FOUND)
 
     fun getRoomById(roomId: Long): Room =
-        roomRepository.findByIdOrNull(roomId) ?: throw NoSuchElementException("The room code does not exist.")
+        roomRepository.findById(roomId).orElseThrow { NotFoundException(ExceptionType.ROOM_NOT_FOUND) }
 
     fun getRoomDetailByRoomCode(deviceId: String, roomCode: String): RoomDetailResponse {
-        val room: Room = this.getRoomByRoomCode(roomCode)
+        val room: Room = getRoomByRoomCode(roomCode)
         val user: User = userService.getUserByDeviceId(deviceId)
-
         if (isParticipationInRoom(room.id!!, user.id!!).not())
-            throw NoSuchElementException("This user not participating in this room.")
-
+            throw NotFoundException(ExceptionType.PARTICIPATION_NOT_FOUND)
         val comments: List<CommentResponse> = commentService.getCommentListByRoomId(user.id!!, room.id!!)
-
         return RoomDetailResponse(
             title = room.title,
             type = room.type,

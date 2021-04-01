@@ -1,5 +1,7 @@
 package mashup.backend.tdtd.participation.service
 
+import mashup.backend.tdtd.common.exception.ExceptionType
+import mashup.backend.tdtd.common.exception.NotFoundException
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
 import mashup.backend.tdtd.room.dto.RoomListResponse
@@ -15,11 +17,15 @@ class BookmarkService(
     private val participationRepository: ParticipationRepository,
     private val roomRepository: RoomRepository,
     private val userService: UserService,
-    private val roomService: RoomService) {
+    private val roomService: RoomService
+) {
+    companion object {
+        const val BOOKMARKED = true
+    }
 
     fun getBookmarkedRooms(deviceId: String): List<RoomListResponse> {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
-        val participationList: List<Participation> = participationRepository.findByUserIdAndBookmark(userId!!, true)
+        val participationList: List<Participation> = participationRepository.findByUserIdAndBookmark(userId, BOOKMARKED)
         val roomIdList: List<Long> = participationList.map { it.roomId }.toList()
         val roomList: List<Room> = roomRepository.findByIdIn(roomIdList)
         val roomMap: Map<Long, Room> = roomList.map { it.id!! to it }.toMap()
@@ -39,7 +45,8 @@ class BookmarkService(
     fun updateBookmarkStatus(deviceId: String, roomCode: String, bookmark: Boolean) {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
-        val participation: Participation = participationRepository.findByRoomIdAndUserId(roomId, userId)!!
+        val participation: Participation = participationRepository.findByRoomIdAndUserId(roomId, userId)
+            ?: throw NotFoundException(ExceptionType.PARTICIPATION_NOT_FOUND)
         participation.updateBookmark(bookmark)
     }
 }

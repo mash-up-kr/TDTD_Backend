@@ -20,7 +20,7 @@ class SeedDataInitializer(
     private val commentService: CommentService,
     private val participationService: ParticipationService,
     private val reportService: ReportService
-) : CommandLineRunner{
+) : CommandLineRunner {
     companion object {
         val userList: Array<String> = arrayOf(
             "김남수", "이호찬", "김주희",
@@ -56,15 +56,15 @@ class SeedDataInitializer(
     }
 
     fun insertUser() {
-        for((index, userName) in userList.withIndex()) {
-            userService.createUser("device-${index+1}", userName = userName)
+        for ((index, userName) in userList.withIndex()) {
+            userService.createUser("device-${index + 1}", userName = userName)
         }
     }
 
     fun createRoom() {
-        for(roomId in roomRange) {
+        for (roomId in roomRange) {
             val randomDeviceId = userRange.random()
-            val randomRoomType = if(roomTypeRange.random() == 0) RoomType.VOICE.name else RoomType.TEXT.name
+            val randomRoomType = if (roomTypeRange.random() == 0) RoomType.VOICE.name else RoomType.TEXT.name
             val insertedRoom = roomService.createRoom(
                 "device-${randomDeviceId}",
                 CreateRoomRequest(title = "room-${roomId}", type = randomRoomType)
@@ -75,15 +75,16 @@ class SeedDataInitializer(
     }
 
     fun joinRandomUser(randomDeviceId: Int, roomCode: String) {
-        for(participationDevice in userRange) {
-            if(randomDeviceId == participationDevice
-                || participationRange.random() > PARTICIPATION_RATE) continue
+        for (participationDevice in userRange) {
+            if (randomDeviceId == participationDevice
+                || participationRange.random() > PARTICIPATION_RATE
+            ) continue
             participationService.saveParticipation("device-${participationDevice}", roomCode)
         }
     }
 
     fun replyComment() {
-        for(commentId in commentRange) {
+        for (commentId in commentRange) {
             val randomParticipationInfo: Participation = participationService.getParticipationRandomLimitOne()
             val userInfo: User = userService.getUserById(randomParticipationInfo.userId)
             val commentCnt = commentService.getCommentCountByRoomId(randomParticipationInfo.roomId)
@@ -105,7 +106,7 @@ class SeedDataInitializer(
         val row = commentCnt / CHARACTER_LIMIT_IN_ROW
         var left = ((col + 1) * CHARACTER_LEFT_MARGIN) + (col * CHARACTER_WIDTH)
         var top = row * STICKER_AREA_HEIGHT + CHARACTER_TOP_MARGIN
-        if(isCenter) {
+        if (isCenter) {
             left += (CHARACTER_WIDTH / 2)
             top += (CHARACTER_HEIGHT / 2)
         }
@@ -113,12 +114,14 @@ class SeedDataInitializer(
     }
 
     fun reportComment() {
-        for(commentId in commentRange) {
+        for (commentId in commentRange) {
             val commentInfo = commentService.getCommentById(commentId.toLong())
             val participationList = participationService.getParticipationListByRoomId(commentInfo.roomId)
-            for(participation in participationList) {
-                if(commentInfo.userId == participation.userId
-                    || reportRange.random() > REPORT_RATE) continue
+            for (participation in participationList) {
+                if (commentInfo.userId == participation.userId
+                    || reportService.existsReportByUserIdAndCommentId(participation.userId, commentInfo.id!!)
+                    || reportRange.random() > REPORT_RATE
+                ) continue
                 val userInfo = userService.getUserById(participation.userId)
                 reportService.reportCommentByCommentId(commentId.toLong(), userInfo.deviceId)
             }

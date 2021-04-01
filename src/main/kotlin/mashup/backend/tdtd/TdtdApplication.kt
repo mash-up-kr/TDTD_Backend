@@ -8,5 +8,5 @@ class TdtdApplication
 
 fun main(args: Array<String>) {
     runApplication<TdtdApplication>(*args)
-    print("Hello TDTD!")
+    println("Hello TDTD!")
 }

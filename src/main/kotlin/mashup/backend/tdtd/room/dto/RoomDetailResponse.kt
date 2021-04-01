@@ -7,11 +7,11 @@ import mashup.backend.tdtd.comment.dto.CommentResponse
 import mashup.backend.tdtd.room.entity.RoomType
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
-data class RoomDetailResponse (
+data class RoomDetailResponse(
     val title: String,
     val type: Enum<RoomType>,
     @get:JsonProperty("is_host")
     val isHost: Boolean,
     val shareUrl: String,
-    var comments: List<CommentResponse>,
+    var comments: List<CommentResponse>
 )

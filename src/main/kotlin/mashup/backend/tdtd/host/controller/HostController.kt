@@ -1,9 +1,8 @@
 package mashup.backend.tdtd.host.controller
 
 import mashup.backend.tdtd.comment.service.CommentService
-import mashup.backend.tdtd.common.dto.ExceptionResponse
+import mashup.backend.tdtd.common.entity.ResponseWrapper
 import mashup.backend.tdtd.room.service.RoomService
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/v1/host")
@@ -17,25 +16,17 @@ class HostController(
     fun deleteRoom(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String
-    ): ResponseEntity<Any> {
-        return try {
-            roomService.deleteRoom(roomCode)
-            ResponseEntity.ok().build()
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!))
-        }
+    ): ResponseWrapper<Unit> {
+        roomService.deleteRoom(roomCode)
+        return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 
     @DeleteMapping("/comments/{commentId}")
     fun deleteComment(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable commentId: Long
-    ): ResponseEntity<Any> {
-        return try {
-            commentService.deleteCommentByHost(commentId)
-            ResponseEntity.ok().build()
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().body(ExceptionResponse(errMsg = e.message!!))
-        }
+    ): ResponseWrapper<Unit> {
+        commentService.deleteCommentByHost(commentId)
+        return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 }
