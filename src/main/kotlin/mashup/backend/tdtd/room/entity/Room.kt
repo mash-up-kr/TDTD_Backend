@@ -15,7 +15,7 @@ class Room(
     val id: Long? = null,
 
     @Column(nullable = false)
-    var hostId: Long = 1,
+    var hostId: Long = 0,
 
     @Column(nullable = false)
     var title: String = "",
@@ -28,5 +28,5 @@ class Room(
     val roomCode: String = "",
 
     @Column(nullable = false)
-    val shareUrl: String = "",
+    val shareUrl: String = ""
 ) : BaseEntity()

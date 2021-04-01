@@ -4,6 +4,9 @@ import mashup.backend.tdtd.comment.dto.CommentResponse
 import mashup.backend.tdtd.comment.entity.Comment
 import mashup.backend.tdtd.comment.entity.StickerColorType
 import mashup.backend.tdtd.comment.repository.CommentRepository
+import mashup.backend.tdtd.common.exception.BadRequestException
+import mashup.backend.tdtd.common.exception.ExceptionType
+import mashup.backend.tdtd.common.exception.NotFoundException
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,6 +16,22 @@ class CommentService(
     private val commentRepository: CommentRepository,
     private val userService: UserService,
 ) {
+
+    fun saveComment(
+        roomId: Long, userId: Long, nickname: String,
+        stickerPointX: Double, stickerPointY: Double,
+        stickerAngle: Int, stickerColor: StickerColorType,
+    ): Comment = commentRepository.save(
+        Comment(
+            roomId = roomId,
+            userId = userId,
+            nickname = nickname,
+            stickerPointX = stickerPointX,
+            stickerPointY = stickerPointY,
+            stickerAngle = stickerAngle,
+            stickerColor = stickerColor
+        )
+    )
 
     fun getCommentListByRoomId(userId: Long, roomId: Long): List<CommentResponse> {
         return commentRepository.findAllByRoomIdAndIsBlindedIsFalse(roomId).map {
@@ -30,22 +49,7 @@ class CommentService(
     }
 
     fun getCommentById(commentId: Long): Comment =
-        commentRepository.findById(commentId).orElseThrow { NoSuchElementException() }
-
-    fun saveComment(roomId: Long, userId: Long, nickname: String,
-                    stickerPointX: Double, stickerPointY: Double,
-                    stickerAngle: Int, stickerColor: StickerColorType,
-    ): Comment = commentRepository.save(
-            Comment(
-                roomId = roomId,
-                userId = userId,
-                nickname = nickname,
-                stickerPointX = stickerPointX,
-                stickerPointY = stickerPointY,
-                stickerAngle = stickerAngle,
-                stickerColor = stickerColor
-            )
-        )
+        commentRepository.findById(commentId).orElseThrow { NotFoundException(ExceptionType.COMMENT_NOT_FOUND) }
 
     fun getCommentCountByRoomId(roomId: Long): Int =
         commentRepository.countByRoomId(roomId = roomId)
@@ -54,12 +58,16 @@ class CommentService(
     fun deleteCommentByCommentId(deviceId: String, commentId: Long) {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val comment: Comment = getCommentById(commentId)
-        if(userId != comment.userId)
-            throw IllegalArgumentException("Can't delete other people's comments.")
+        if (userId != comment.userId) throw BadRequestException(ExceptionType.DELETE_COMMENT_BAD_REQUEST)
         commentRepository.deleteById(commentId)
     }
 
     @Transactional
-    fun deleteCommentByHost(commentId: Long) =
-        commentRepository.deleteById(commentId)
+    fun deleteCommentByHost(commentId: Long) {
+        try {
+            commentRepository.deleteById(commentId)
+        } catch (e: IllegalArgumentException) {
+            throw NotFoundException(ExceptionType.COMMENT_NOT_FOUND)
+        }
+    }
 }
