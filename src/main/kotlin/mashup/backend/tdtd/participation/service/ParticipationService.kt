@@ -15,10 +15,11 @@ class ParticipationService(
 ) {
 
     @Transactional
-    fun saveParticipation(deviceId: String, roomCode: String): Long {
+    fun saveParticipation(deviceId: String, roomCode: String) {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
-        return participationRepository.save(Participation(roomId = roomId, userId = userId)).id!!
+        participationRepository.findByRoomIdAndUserId(roomId, userId)
+            ?: participationRepository.save(Participation(roomId = roomId, userId = userId))
     }
 
     @Transactional
