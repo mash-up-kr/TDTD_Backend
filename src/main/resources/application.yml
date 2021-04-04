@@ -28,3 +28,15 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+cloud:
+  aws:
+    stack:
+      auto: false
+    credentials:
+      access-key: dummy
+      secret-key: dummy
+    region:
+      static: dummy
+    s3:
+      bucket: dummy
+      voice-file-directory: dummy
