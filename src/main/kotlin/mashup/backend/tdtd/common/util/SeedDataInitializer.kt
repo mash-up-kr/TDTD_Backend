@@ -11,9 +11,11 @@ import mashup.backend.tdtd.room.service.RoomService
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
 import org.springframework.boot.CommandLineRunner
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 @Component
+@Profile("local")
 class SeedDataInitializer(
     private val userService: UserService,
     private val roomService: RoomService,
