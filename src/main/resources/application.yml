@@ -36,7 +36,7 @@ cloud:
       access-key: dummy
       secret-key: dummy
     region:
-      static: dummy
+      static: ap-northeast-2
     s3:
       bucket: dummy
       voice-file-directory: dummy
