@@ -28,7 +28,7 @@ class CommentController(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable("roomCode") roomCode: String,
         requestParams: CreateCommentRequest,
-    ): ResponseEntity<CreateCommentResponse> {
+    ): ResponseWrapper<CreateCommentResponse> {
         // todo: remove code duplication in createTextComment, createVoiceComment
         val result: CreateCommentResponse = when (requestParams.message_type) {
             MessageType.TEXT -> commentService.createTextComment(
@@ -42,6 +42,6 @@ class CommentController(
                 roomCode
             )
         }
-        return ResponseEntity.ok(result)
+        return ResponseWrapper.wrappedSuccessResponse(result)
     }
 }
