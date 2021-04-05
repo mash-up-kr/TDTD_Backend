@@ -2,5 +2,6 @@ package mashup.backend.tdtd.common.exception
 
 import org.springframework.http.HttpStatus
 
-class BadRequestException(exceptionType: ExceptionType) :
-    BaseException(HttpStatus.BAD_REQUEST, exceptionType)
+class BadRequestException(
+    val exceptionType: ExceptionType
+) : BaseException(exceptionType.code, exceptionType.message, HttpStatus.BAD_REQUEST)

@@ -20,7 +20,6 @@ class AuthenticationHostInterceptor(
 ) : HandlerInterceptor {
     companion object {
         const val DEVICE_ID_KEY_IN_HEADER = "Device-Id"
-        const val HOST_ONLY_API_PATH_PREFIX = "/api/v1/host/"
         const val REMAIN_URL_MIN_LENGTH = 2
         const val REMAIN_URL_MAX_LENGTH = 2
     }
@@ -28,15 +27,13 @@ class AuthenticationHostInterceptor(
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val deviceId: String = request.getHeader(DEVICE_ID_KEY_IN_HEADER)
         if (isWrongPath(request.servletPath)) {
-            request.setAttribute("exception", "BadRequestException")
-            request.setAttribute("exceptionType", ExceptionType.WRONG_PATH_BAD_REQUEST)
-            request.getRequestDispatcher("/api/error").forward(request, response)
+            request.setAttribute("InterceptorException", ExceptionType.WRONG_PATH_BAD_REQUEST)
+            response.sendError(ExceptionType.WRONG_PATH_BAD_REQUEST.code)
             return false
         }
         if (isHost(deviceId, request.servletPath).not()) {
-            request.setAttribute("exception", "ForbiddenException")
-            request.setAttribute("exceptionType", ExceptionType.NON_HOST_USER_FORBIDDEN)
-            request.getRequestDispatcher("/api/error").forward(request, response)
+            request.setAttribute("InterceptorException", ExceptionType.NON_HOST_USER_FORBIDDEN)
+            response.sendError(ExceptionType.NON_HOST_USER_FORBIDDEN.code)
             return false
         }
         return true
@@ -44,16 +41,14 @@ class AuthenticationHostInterceptor(
 
     fun isHost(deviceId: String, path: String): Boolean {
         val user: User = userService.getUserByDeviceId(deviceId)
-        val (apiType, detailInfo) = splitRemovedPrefixPath(path)
+        val (apiType, detailInfo) = path.replace("/api/v1/host/", "").split("/")
         val room = when (apiType) {
             ApiType.COMMENT.path -> {
                 val commentId = detailInfo.toLong()
                 val commentInfo: Comment = commentService.getCommentById(commentId)
                 roomService.getRoomById(commentInfo.roomId)
             }
-            ApiType.ROOM.path -> {
-                roomService.getRoomByRoomCode(detailInfo)
-            }
+            ApiType.ROOM.path -> roomService.getRoomByRoomCode(detailInfo)
             else -> return false
         }
         if (room.hostId != user.id) return false
@@ -61,16 +56,12 @@ class AuthenticationHostInterceptor(
     }
 
     fun isWrongPath(path: String): Boolean {
-        if (path.contains(HOST_ONLY_API_PATH_PREFIX).not()) return true
-        val remainingPathList = splitRemovedPrefixPath(path)
-        val accessPathList = listOf("comments", "rooms")
+        val remainingPathList = path.replace("/api/v1/host/", "").split("/")
+        val accessPathList = listOf(ApiType.COMMENT.path, ApiType.ROOM.path)
         if (remainingPathList.size > REMAIN_URL_MAX_LENGTH
             || remainingPathList.size < REMAIN_URL_MIN_LENGTH
         ) return true
         if (accessPathList.contains(remainingPathList.first()).not()) return true
         return false
     }
-
-    fun splitRemovedPrefixPath(path: String): List<String> =
-        path.replace(HOST_ONLY_API_PATH_PREFIX, "").split("/")
 }
