@@ -15,9 +15,9 @@ class ExceptionController : ErrorController {
 
     @RequestMapping("/error")
     fun errorHandler(request: HttpServletRequest) {
-        val interceptorException = request.getAttribute("InterceptorException")?.toString()
-        if (interceptorException != null) {
-            val exceptionType = ExceptionType.valueOf(interceptorException)
+        val expectedException = request.getAttribute("ExpectedException")?.toString()
+        if (expectedException != null) {
+            val exceptionType = ExceptionType.valueOf(expectedException)
             when (exceptionType.code / 10) {
                 400 -> throw BadRequestException(exceptionType)
                 401 -> throw UnauthorizedException(exceptionType)
