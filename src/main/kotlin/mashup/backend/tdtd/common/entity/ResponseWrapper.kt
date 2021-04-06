@@ -15,6 +15,10 @@ class ResponseWrapper<T> : ResponseEntity<BaseResponse<T>> {
         BaseResponse(type, null), null, status
     )
 
+    private constructor(code: Int, message: String, status: HttpStatus) : super(
+        BaseResponse(code, message, null), null, status
+    )
+
     companion object {
         fun <T> wrappedSuccessResponse(body: T): ResponseWrapper<T> {
             return ResponseWrapper(body, HttpStatus.OK)
@@ -25,6 +29,14 @@ class ResponseWrapper<T> : ResponseEntity<BaseResponse<T>> {
             type: ExceptionType
         ): ResponseWrapper<T> {
             return ResponseWrapper(type, status)
+        }
+
+        fun <T> wrappedExceptionResponse(
+            code: Int,
+            message: String,
+            status: HttpStatus
+        ): ResponseWrapper<T> {
+            return ResponseWrapper(code, message, status)
         }
     }
 }

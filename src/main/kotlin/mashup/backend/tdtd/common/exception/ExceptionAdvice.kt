@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ExceptionAdvice {
-    companion object : Log
 
     @ExceptionHandler(BaseException::class)
-    fun handleBaseException(exception: BaseException): ResponseWrapper<Unit> {
-        logger.error("code: ${exception.exceptionType.code} - message: ${exception.exceptionType.message}")
-        return ResponseWrapper.wrappedExceptionResponse(exception.httpStatus, exception.exceptionType)
+    fun handleBaseException(ex: BaseException): ResponseWrapper<Unit> {
+        Log.printErrorLog(ex.code, ex.message)
+        return ResponseWrapper.wrappedExceptionResponse(ex.code, ex.message, ex.httpStatus)
     }
 
     @ExceptionHandler(RuntimeException::class)
-    fun handleUnexpectedException(exception: RuntimeException): ResponseWrapper<Unit> {
-        logger.error(exception.stackTraceToString())
+    fun handleUnexpectedException(ex: RuntimeException): ResponseWrapper<Unit> {
+        Log.printErrorLog(ex.stackTraceToString())
         return ResponseWrapper.wrappedExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, ExceptionType.UNEXPECTED)
     }
 }

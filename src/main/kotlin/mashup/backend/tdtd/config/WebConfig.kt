@@ -14,14 +14,14 @@ class WebConfig(
     private val authenticationHostInterceptor: AuthenticationHostInterceptor
 ) : WebMvcConfigurer {
     companion object {
+        const val ALL_API_PATH = "/api/**"
         const val USER_REGISTRATION_URL_PATH = "/api/v1/rooms/**"
         const val HOST_ONLY_URL_PATH = "/api/v1/host/**"
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(deviceIdInterceptor)
-            .addPathPatterns("/**")
-            .excludePathPatterns("/error", "/api/error")
+            .addPathPatterns(ALL_API_PATH)
             .order(0)
         registry.addInterceptor(userRegistrationInterceptor)
             .addPathPatterns(USER_REGISTRATION_URL_PATH).order(1)

@@ -1,8 +1,8 @@
 package mashup.backend.tdtd.common.exception
 
 enum class ExceptionType(
-    var code: Int,
-    var message: String
+    val code: Int,
+    val message: String
 ) {
     BAD_REQUEST(4000, "Bad Request"),
     DEVICE_BAD_REQUEST(4001, "Device-Id is not included."),
@@ -11,7 +11,6 @@ enum class ExceptionType(
     REPORT_COMMENT_BAD_REQUEST(4004, "This comment has already been reported."),
 
     UNAUTHORIZED(4010, "Unauthorized"),
-    USER_UNAUTHORIZED(4011, ""),
 
     FORBIDDEN(4030, "Forbidden"),
     NON_HOST_USER_FORBIDDEN(4031, "Only hosts can be requested."),
@@ -25,5 +24,5 @@ enum class ExceptionType(
     COMMENT_NOT_FOUND(4045, "The comment does not exist."),
     PARTICIPATION_NOT_FOUND(4046, "This user not participating in this room."),
 
-    UNEXPECTED(5000, "This request cannot be processed.")
+    UNEXPECTED(5000, "This request cannot be processed.");
 }
