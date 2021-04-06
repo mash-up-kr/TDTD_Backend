@@ -3,6 +3,8 @@ package mashup.backend.tdtd.common.service
 import mashup.backend.tdtd.common.dto.ShortDynamicLinkRequest
 import mashup.backend.tdtd.common.dto.ShortDynamicLinkResponse
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Profile
+import org.springframework.core.env.Environment
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -13,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @Service
 class DynamicLinkService(
     private val restTemplate: RestTemplate,
-
+    private val environment: Environment,
     @Value("\${firebase.api-key}")
     private val apiKey: String
 ) {
@@ -22,6 +24,7 @@ class DynamicLinkService(
     }
 
     fun getShortDynamicLink(dynamicLink: String): String? {
+        if(environment.activeProfiles.contains("local")) return null
         val url: String = UriComponentsBuilder
             .fromUriString(FIREBASE_SHORT_DYNAMIC_LINK_URL)
             .queryParam("key", apiKey)
@@ -33,7 +36,7 @@ class DynamicLinkService(
             restTemplate.exchange(url,
                 HttpMethod.POST,
                 httpEntity,
-                ShortDynamicLinkResponse::class.java).body?: return null
+                ShortDynamicLinkResponse::class.java).body?: throw RuntimeException()
 
         return response.shortLink
     }

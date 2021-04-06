@@ -20,6 +20,7 @@ import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -38,14 +39,14 @@ class RoomService(
         createRoomRequest: CreateRoomRequest,
     ): CreateRoomResponse {
         val roomCode: String = UuidManager.getBase64Uuid()
-        val dynamicLongLink = DynamicLinkGenerator.getLongLink(roomCode)
+        val longLink = DynamicLinkGenerator.getLongLink(roomCode)
         val savedRoom: Room = roomRepository.save(
             Room(
                 hostId = userService.getUserByDeviceId(deviceId).id!!,
                 title = createRoomRequest.title,
                 type = RoomType.valueOf(createRoomRequest.type),
                 roomCode = roomCode,
-                shareUrl = dynamicLinkService.getShortDynamicLink(dynamicLongLink)?:dynamicLongLink
+                shareUrl = dynamicLinkService.getShortDynamicLink(longLink)?:longLink
             )
         )
         participationRepository.save(
