@@ -1,9 +1,8 @@
-package mashup.backend.tdtd.common.service
+package mashup.backend.tdtd.dynamic.service
 
-import mashup.backend.tdtd.common.dto.ShortDynamicLinkRequest
-import mashup.backend.tdtd.common.dto.ShortDynamicLinkResponse
+import mashup.backend.tdtd.dynamic.dto.ShortDynamicLinkRequest
+import mashup.backend.tdtd.dynamic.dto.ShortDynamicLinkResponse
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Profile
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

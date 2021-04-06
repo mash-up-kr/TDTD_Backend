@@ -5,7 +5,7 @@ import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.exception.ExceptionType
 import mashup.backend.tdtd.common.exception.NotFoundException
-import mashup.backend.tdtd.common.service.DynamicLinkService
+import mashup.backend.tdtd.dynamic.service.DynamicLinkService
 import mashup.backend.tdtd.common.util.DynamicLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
 import mashup.backend.tdtd.host.dto.ShareUrlResponse
@@ -20,7 +20,6 @@ import mashup.backend.tdtd.room.entity.RoomType
 import mashup.backend.tdtd.room.repository.RoomRepository
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

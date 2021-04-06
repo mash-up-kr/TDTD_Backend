@@ -1,4 +1,4 @@
-package mashup.backend.tdtd.common.dto
+package mashup.backend.tdtd.dynamic.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
