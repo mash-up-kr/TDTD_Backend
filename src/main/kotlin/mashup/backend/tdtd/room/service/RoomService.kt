@@ -5,8 +5,10 @@ import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.exception.ExceptionType
 import mashup.backend.tdtd.common.exception.NotFoundException
+import mashup.backend.tdtd.common.exception.UnauthorizedException
 import mashup.backend.tdtd.common.util.DeepLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
+import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
@@ -87,6 +89,11 @@ class RoomService(
             shareUrl = room.shareUrl,
             comments = comments
         )
+    }
+
+    fun getShareUrlByRoomCode(roomCode: String): ShareUrlResponse {
+        val room: Room = getRoomByRoomCode(roomCode)
+        return ShareUrlResponse(room.shareUrl)
     }
 
     fun isParticipationInRoom(roomId: Long, userId: Long): Boolean {
