@@ -1,11 +1,7 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app
+REPOSITORY=/home/ec2-user/app/TDTD_Deploy
 PROJECT_NAME=tdtd
-
-echo "> Build 파일 복사"
-
-cp $REPOSITORY/TDTD_Deploy/*.jar $REPOSITORY/
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
