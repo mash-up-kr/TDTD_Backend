@@ -40,3 +40,5 @@ cloud:
     s3:
       bucket: dummy
       voice-file-directory: dummy
+firebase:
+  api-key: dummy

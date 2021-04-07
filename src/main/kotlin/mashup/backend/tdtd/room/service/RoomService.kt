@@ -5,8 +5,10 @@ import mashup.backend.tdtd.comment.repository.CommentRepository
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.exception.ExceptionType
 import mashup.backend.tdtd.common.exception.NotFoundException
-import mashup.backend.tdtd.common.util.DeepLinkGenerator
+import mashup.backend.tdtd.dynamic.service.DynamicLinkService
+import mashup.backend.tdtd.common.util.DynamicLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
+import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
 import mashup.backend.tdtd.room.dto.CreateRoomRequest
@@ -28,6 +30,7 @@ class RoomService(
     private val commentRepository: CommentRepository,
     private val userService: UserService,
     private val commentService: CommentService,
+    private val dynamicLinkService: DynamicLinkService
 ) {
 
     fun createRoom(
@@ -35,13 +38,14 @@ class RoomService(
         createRoomRequest: CreateRoomRequest,
     ): CreateRoomResponse {
         val roomCode: String = UuidManager.getBase64Uuid()
+        val longLink = DynamicLinkGenerator.getLongLink(roomCode)
         val savedRoom: Room = roomRepository.save(
             Room(
                 hostId = userService.getUserByDeviceId(deviceId).id!!,
                 title = createRoomRequest.title,
                 type = RoomType.valueOf(createRoomRequest.type),
                 roomCode = roomCode,
-                shareUrl = DeepLinkGenerator.getDeepLink(roomCode)
+                shareUrl = dynamicLinkService.getShortDynamicLink(longLink)?:longLink
             )
         )
         participationRepository.save(
@@ -87,6 +91,11 @@ class RoomService(
             shareUrl = room.shareUrl,
             comments = comments
         )
+    }
+
+    fun getShareUrlByRoomCode(roomCode: String): ShareUrlResponse {
+        val room: Room = getRoomByRoomCode(roomCode)
+        return ShareUrlResponse(room.shareUrl)
     }
 
     fun isParticipationInRoom(roomId: Long, userId: Long): Boolean {

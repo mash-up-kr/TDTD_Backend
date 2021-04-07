@@ -2,6 +2,7 @@ package mashup.backend.tdtd.host.controller
 
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.entity.ResponseWrapper
+import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.room.service.RoomService
 import org.springframework.web.bind.annotation.*
 
@@ -19,6 +20,15 @@ class HostController(
     ): ResponseWrapper<Unit> {
         roomService.deleteRoom(roomCode)
         return ResponseWrapper.wrappedSuccessResponse(Unit)
+    }
+
+    @GetMapping("/rooms/{roomCode}")
+    fun getShareUrlOfRoom(
+        @RequestHeader("Device-Id") deviceId: String,
+        @PathVariable roomCode: String
+    ): ResponseWrapper<ShareUrlResponse> {
+        val response: ShareUrlResponse = roomService.getShareUrlByRoomCode(roomCode)
+        return ResponseWrapper.wrappedSuccessResponse(response)
     }
 
     @DeleteMapping("/comments/{commentId}")
