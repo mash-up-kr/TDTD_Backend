@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 @Component
-@Profile("local")
 class SeedDataInitializer(
     private val userService: UserService,
     private val roomService: RoomService,
