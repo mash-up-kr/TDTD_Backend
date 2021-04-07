@@ -27,6 +27,6 @@ class Room(
     @Column(nullable = false)
     val roomCode: String = "",
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 2048)
     val shareUrl: String = ""
 ) : BaseEntity()
