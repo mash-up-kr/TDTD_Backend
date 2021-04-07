@@ -15,9 +15,8 @@ class DeviceIdInterceptor : HandlerInterceptor {
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         val deviceId: String? = request.getHeader(DEVICE_ID_KEY_IN_HEADER)
         if (deviceId.isNullOrBlank()) {
-            request.setAttribute("exception", "BadRequestException")
-            request.setAttribute("exceptionType", ExceptionType.DEVICE_BAD_REQUEST)
-            request.getRequestDispatcher("/api/error").forward(request, response)
+            request.setAttribute("ExpectedException", ExceptionType.DEVICE_BAD_REQUEST)
+            response.sendError(ExceptionType.DEVICE_BAD_REQUEST.code)
             return false
         }
         return true
