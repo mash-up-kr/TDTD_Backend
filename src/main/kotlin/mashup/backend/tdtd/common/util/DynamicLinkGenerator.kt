@@ -6,7 +6,7 @@ class DynamicLinkGenerator {
     companion object {
         private const val SCHEMA = "https"
         private const val HOST = "sokdak.page.link"
-        private const val LINK = "http://52.79.54.20/dynamic"
+        private const val LINK = "https://sokdak.site"
         private const val IOS_APP_STORE_ID = "1557251130"
         private const val IOS_APP_BUNDLE_ID = "com.chan.TDTD"
         private const val AND_APP_PACKAGE_NAME = "com.tdtd.voicepaper"
