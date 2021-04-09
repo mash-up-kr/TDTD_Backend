@@ -1,0 +1,150 @@
+@font-face {
+    font-family: "UhBee ZIGLE";
+    src: url("../fonts/UhBee_ZIGLE.ttf");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "UhBee ZIGLE";
+    src: url("../fonts/UhBee_ZIGLE_Bold.ttf");
+    font-weight: bold;
+}
+
+html,body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+a {
+    text-decoration: none;
+}
+a:visited {
+    color: black;
+}
+
+body {
+    background-color: #f8f3ef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/img_bgWeb.png");
+}
+
+.main-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    width: 322px;
+    height: 443px;
+}
+
+.icon {
+    width: 115px;
+    height: 115px;
+    border-radius: 24px;
+}
+
+.logo {
+    width: 270px;
+    height: 90px;
+    margin-top: 40px;
+}
+
+.text {
+    font-family: "UhBee ZIGLE", serif;
+    font-weight: bold;
+}
+
+.title {
+    margin-top: 16px;
+    font-size: 30px;
+    color: #61596a
+}
+
+.description {
+    margin-top: 8px;
+    font-size: 20px;
+    color: #888390
+}
+
+.link-container {
+    width: inherit;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 72px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e1d8d1;
+    border-radius: 12px;
+    width: 152px;
+    height: 46px;
+    background-color: #ede5df;
+}
+
+.btn-text {
+    height: 20px;
+    line-height: 25px;
+    font-size: 20px;
+    color: #393045;
+    margin-left: 6px;
+}
+
+@media (max-width: 375px) {
+    .background {
+        background-image: none;
+    }
+
+    .main-container {
+        width: 274px;
+        height: 412px;
+    }
+
+    .icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 18px;
+    }
+
+    .logo {
+        width: 180px;
+        height: 60px;
+        margin-top: 24px;
+    }
+
+    .title {
+        margin-top: 8px;
+        font-size: 28px;
+    }
+
+    .description {
+        margin-top: 4px;
+        font-size: 18px;
+    }
+
+    .link-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 64px;
+    }
+
+    .google-play-btn {
+        margin-top: 8px;
+    }
+}

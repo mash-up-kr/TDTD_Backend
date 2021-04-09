@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <title>속닥속닥</title>
+</head>
+<body>
+    <div class="background"> </div>
+    <div class="main-container">
+        <img class="icon" th:src="@{/images/app_icon.png}" />
+        <img class="logo" th:src="@{/images/logo.png}">
+        <p class="title text">음성으로 남기는 롤링페이퍼 서비스</p>
+        <p class="description text">앱을 다운로드 받아서 롤링페이퍼를 작성해보세요!</p>
+        <div class="link-container">
+            <a class="app-store-btn btn" href="https://www.apple.com/kr/app-store/">
+                <img class="apple-store-icon" th:src="@{/images/apple_store_icon.png}">
+                <p class="text btn-text">App Store</p>
+            </a>
+            <a class="google-play-btn btn" href="https://play.google.com/store/apps">
+                <img class="google-play-icon" th:src="@{/images/google_play_icon.png}">
+                <p class="text btn-text">Google Play</p>
+            </a>
+        <div>
+    </div>
+</body>
+</html>
