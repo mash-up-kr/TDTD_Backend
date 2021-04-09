@@ -1,15 +1,15 @@
-package mashup.backend.tdtd.dynamic.controller
+package mashup.backend.tdtd.home.controller
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
-@RequestMapping("/dynamic")
+@RequestMapping("/")
 @Controller
-class DynamicLinkController {
+class HomeController {
 
     @GetMapping
-    fun getDynamicLinkPage(): String {
-        return "dynamicLink"
+    fun home(): String {
+        return "home"
     }
 }
