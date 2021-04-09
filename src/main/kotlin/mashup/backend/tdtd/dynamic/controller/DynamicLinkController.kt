@@ -10,6 +10,6 @@ class DynamicLinkController {
 
     @GetMapping
     fun getDynamicLinkPage(): String {
-        return "dynamicLink"
+        return "home"
     }
 }
