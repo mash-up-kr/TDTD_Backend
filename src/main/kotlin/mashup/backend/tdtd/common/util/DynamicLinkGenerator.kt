@@ -11,7 +11,7 @@ class DynamicLinkGenerator {
         private const val IOS_APP_BUNDLE_ID = "com.chan.TDTD"
         private const val AND_APP_PACKAGE_NAME = "com.tdtd.voicepaper"
         private const val SNS_META_TAG_TITLE = "속닥속닥"
-        private const val SNS_META_TAG_DESCRIPTION = "당신의 마음을 속삭여주세요."
+        private const val SNS_META_TAG_DESCRIPTION = "주위 친구들, 연인, 부모님 등 소중한 사람들과 함께 당신의 속마음을 속삭여주세요."
         private const val SNS_META_TAG_IMAGE = "https://tdtd-bucket.s3.ap-northeast-2.amazonaws.com/prod/images/app_icon.png"
 
 
