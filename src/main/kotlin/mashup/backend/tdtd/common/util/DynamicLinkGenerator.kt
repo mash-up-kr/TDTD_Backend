@@ -6,7 +6,7 @@ class DynamicLinkGenerator {
     companion object {
         private const val SCHEMA = "https"
         private const val HOST = "sokdak.page.link"
-        private const val LINK = "https://sokdak.site"
+        private const val APP_URL = "https://sokdak.site"
         private const val IOS_APP_STORE_ID = "1557251130"
         private const val IOS_APP_BUNDLE_ID = "com.chan.TDTD"
         private const val AND_APP_PACKAGE_NAME = "com.tdtd.voicepaper"
@@ -16,15 +16,16 @@ class DynamicLinkGenerator {
 
 
         fun getLongLink(roomCode: String): String {
+            val link = UriComponentsBuilder.fromUriString(APP_URL).queryParam("room-code", roomCode).toUriString()
             return UriComponentsBuilder.fromUriString("$SCHEMA://$HOST/")
-                .queryParam("link", LINK)
+                .queryParam("link", link)
                 .queryParam("apn", AND_APP_PACKAGE_NAME)
                 .queryParam("isi", IOS_APP_STORE_ID)
                 .queryParam("ibi", IOS_APP_BUNDLE_ID)
+                .queryParam("ofl", APP_URL)
                 .queryParam("st", SNS_META_TAG_TITLE)
                 .queryParam("sd", SNS_META_TAG_DESCRIPTION)
                 .queryParam("si", SNS_META_TAG_IMAGE)
-                .queryParam("room-code", roomCode)
                 .toUriString()
         }
     }
