@@ -35,6 +35,9 @@ jobs:
       - name: Copy appspec
         run: cp appspec-test.yml tdtd/
 
+      - name: Rename appspec
+        run: mv tdtd/appspec-test.yml tdtd/appspec.yml
+
       - name: Copy jar
         run: cp build/libs/*.jar tdtd/
 
