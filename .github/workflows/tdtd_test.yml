@@ -1,18 +1,18 @@
-name: TDTD-CI/CD
+name: TDTD-TEST-CI/CD
 
 on:
   push:
-    branches: [ master ]
-  
+    branches: [ develop ]
+
 jobs:
   deploy:
-    name: Deploy
+    name: Test Server Deploy
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
+
       - name: Set up JDK 11
         uses: joschi/setup-jdk@v2
         with:
@@ -30,10 +30,13 @@ jobs:
         run: mkdir -p tdtd
 
       - name: Copy shell script
-        run: cp scripts/deploy.sh tdtd/
+        run: cp scripts/deploy-test.sh tdtd/
 
       - name: Copy appspec
-        run: cp appspec.yml tdtd/
+        run: cp appspec-test.yml tdtd/
+
+      - name: Rename appspec
+        run: mv tdtd/appspec-test.yml tdtd/appspec.yml
 
       - name: Copy jar
         run: cp build/libs/*.jar tdtd/
@@ -44,12 +47,12 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp tdtd.zip s3://tdtd-bucket/TDTD-Deploy/tdtd.zip --region ap-northeast-2
+        run: aws s3 cp tdtd.zip s3://tdtd-test-bucket/TDTD-Deploy/tdtd.zip --region ap-northeast-2
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name TDTD --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name tdtd-deploy-group --s3-location bucket=tdtd-bucket,bundleType=zip,key=TDTD-Deploy/tdtd.zip
+        run: aws deploy create-deployment --application-name tdtd_test --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name tdtd_test_group --s3-location bucket=tdtd-test-bucket,bundleType=zip,key=TDTD-Deploy/tdtd.zip

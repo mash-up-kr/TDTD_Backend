@@ -10,7 +10,7 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var deviceId: String = "",
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
