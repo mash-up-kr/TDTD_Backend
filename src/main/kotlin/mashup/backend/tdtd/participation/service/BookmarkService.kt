@@ -36,6 +36,7 @@ class BookmarkService(
                 roomCode = roomMap[participation.roomId]?.roomCode!!,
                 shareUrl = roomMap[participation.roomId]?.shareUrl!!,
                 isBookmark = participation.bookmark,
+                type = roomMap[participation.roomId]?.type!!,
                 createdAt = roomMap[participation.roomId]?.createdAt!!,
             )
         }
