@@ -2,7 +2,7 @@ package mashup.backend.tdtd.host.controller
 
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.entity.ResponseWrapper
-import mashup.backend.tdtd.host.dto.GetAlteredRoomNameRequest
+import mashup.backend.tdtd.host.dto.UpdateRoomNameRequest
 import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.room.service.RoomService
 import org.springframework.web.bind.annotation.*
@@ -45,9 +45,9 @@ class HostController(
     fun alterRoomName(
         @RequestHeader("Device-Id") deviceId: String,
         @PathVariable roomCode: String,
-        @RequestBody getAlteredRoomNameRequest: GetAlteredRoomNameRequest //얘가 잘못됐나?
+        @RequestBody updateRoomNameRequest: UpdateRoomNameRequest
     ): ResponseWrapper<Unit> {
-        roomService.alterRoomName(getAlteredRoomNameRequest, roomCode)
+        roomService.alterRoomName(updateRoomNameRequest, roomCode)
         return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 }
