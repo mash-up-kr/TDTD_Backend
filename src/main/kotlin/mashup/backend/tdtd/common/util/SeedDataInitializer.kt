@@ -14,8 +14,7 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
-//@Profile("local")
-@Profile("a")
+@Profile("local")
 @Component
 class SeedDataInitializer(
     private val userService: UserService,
