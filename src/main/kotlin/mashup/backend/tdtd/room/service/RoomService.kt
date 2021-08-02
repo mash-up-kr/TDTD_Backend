@@ -122,6 +122,6 @@ class RoomService(
         roomCode: String
     ) {
         val room: Room = this.getRoomByRoomCode(roomCode)
-        room.updateTitle(updateRoomNameRequest.newTitle)
+        room.updateTitle(updateRoomNameRequest.new_title)
     }
 }

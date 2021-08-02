@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonValue
 
 
 data class UpdateRoomNameRequest @JsonCreator constructor(
-    @JsonValue val newTitle: String
+    @JsonValue val new_title: String
 )
