@@ -2,6 +2,7 @@ package mashup.backend.tdtd.host.controller
 
 import mashup.backend.tdtd.comment.service.CommentService
 import mashup.backend.tdtd.common.entity.ResponseWrapper
+import mashup.backend.tdtd.host.dto.UpdateRoomNameRequest
 import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.room.service.RoomService
 import org.springframework.web.bind.annotation.*
@@ -37,6 +38,16 @@ class HostController(
         @PathVariable commentId: Long
     ): ResponseWrapper<Unit> {
         commentService.deleteCommentByHost(commentId)
+        return ResponseWrapper.wrappedSuccessResponse(Unit)
+    }
+
+    @PatchMapping("/rooms/{roomCode}")
+    fun alterRoomName(
+        @RequestHeader("Device-Id") deviceId: String,
+        @PathVariable roomCode: String,
+        @RequestBody updateRoomNameRequest: UpdateRoomNameRequest
+    ): ResponseWrapper<Unit> {
+        roomService.alterRoomName(updateRoomNameRequest, roomCode)
         return ResponseWrapper.wrappedSuccessResponse(Unit)
     }
 }

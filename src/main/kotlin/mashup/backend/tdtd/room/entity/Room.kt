@@ -29,4 +29,9 @@ class Room(
 
     @Column(nullable = false, length = 2048)
     val shareUrl: String = ""
-) : BaseEntity()
+) : BaseEntity() {
+
+    fun updateTitle(title: String) {
+        this.title = title
+    }
+}
