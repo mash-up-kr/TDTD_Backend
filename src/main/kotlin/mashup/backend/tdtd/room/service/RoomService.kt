@@ -8,6 +8,7 @@ import mashup.backend.tdtd.common.exception.NotFoundException
 import mashup.backend.tdtd.dynamic.service.DynamicLinkService
 import mashup.backend.tdtd.common.util.DynamicLinkGenerator
 import mashup.backend.tdtd.common.util.UuidManager
+import mashup.backend.tdtd.host.dto.UpdateRoomNameRequest
 import mashup.backend.tdtd.host.dto.ShareUrlResponse
 import mashup.backend.tdtd.participation.entity.Participation
 import mashup.backend.tdtd.participation.repository.ParticipationRepository
@@ -113,5 +114,14 @@ class RoomService(
         commentRepository.deleteAllByRoomId(room.id!!)
         participationRepository.deleteAllByRoomId(room.id!!)
         roomRepository.deleteById(room.id!!)
+    }
+
+    @Transactional
+    fun alterRoomName(
+        updateRoomNameRequest: UpdateRoomNameRequest,
+        roomCode: String
+    ) {
+        val room: Room = this.getRoomByRoomCode(roomCode)
+        room.updateTitle(updateRoomNameRequest.newTitle)
     }
 }
