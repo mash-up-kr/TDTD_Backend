@@ -26,8 +26,8 @@ class User(
     @Column
     var profile: String? = null,
 
-    @Column
-    var lastUsedAt: LocalDateTime? = LocalDateTime.now()
+    @Column(columnDefinition = "DATETIME")
+    var lastUsedAt: LocalDateTime = LocalDateTime.now()
 ) : BaseEntity() {
 
     fun updateLastUsedAt() {
