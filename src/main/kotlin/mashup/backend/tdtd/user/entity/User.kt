@@ -1,6 +1,7 @@
 package mashup.backend.tdtd.user.entity
 
 import mashup.backend.tdtd.common.entity.BaseEntity
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Table(name = "users")
@@ -23,5 +24,13 @@ class User(
     var userName: String? = null,
 
     @Column
-    var profile: String? = null
-) : BaseEntity()
+    var profile: String? = null,
+
+    @Column
+    var lastUsedAt: LocalDateTime? = LocalDateTime.now()
+) : BaseEntity() {
+
+    fun updateLastUsedAt() {
+        this.lastUsedAt = LocalDateTime.now()
+    }
+}
