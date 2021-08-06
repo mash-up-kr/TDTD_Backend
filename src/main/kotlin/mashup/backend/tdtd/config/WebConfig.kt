@@ -1,9 +1,6 @@
 package mashup.backend.tdtd.config
 
-import mashup.backend.tdtd.config.interceptor.AuthenticationHostInterceptor
-import mashup.backend.tdtd.config.interceptor.DeviceIdInterceptor
-import mashup.backend.tdtd.config.interceptor.RedirectionHomeInterceptor
-import mashup.backend.tdtd.config.interceptor.UserRegistrationInterceptor
+import mashup.backend.tdtd.config.interceptor.*
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -13,7 +10,8 @@ class WebConfig(
     private val deviceIdInterceptor: DeviceIdInterceptor,
     private val userRegistrationInterceptor: UserRegistrationInterceptor,
     private val authenticationHostInterceptor: AuthenticationHostInterceptor,
-    private val redirectionHomeInterceptor: RedirectionHomeInterceptor
+    private val redirectionHomeInterceptor: RedirectionHomeInterceptor,
+    private val recentAccessInterceptor: RecentAccessInterceptor
 ) : WebMvcConfigurer {
     companion object {
         const val ALL_PATH = "/**"
@@ -38,6 +36,8 @@ class WebConfig(
             .addPathPatterns(USER_REGISTRATION_URL_PATH).order(1)
         registry.addInterceptor(authenticationHostInterceptor)
             .addPathPatterns(HOST_ONLY_URL_PATH).order(1)
+        registry.addInterceptor(recentAccessInterceptor)
+            .addPathPatterns(ALL_API_PATH).order(2)
         super.addInterceptors(registry)
     }
 }
