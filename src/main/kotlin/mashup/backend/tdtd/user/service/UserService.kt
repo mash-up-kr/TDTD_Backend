@@ -5,6 +5,7 @@ import mashup.backend.tdtd.common.exception.NotFoundException
 import mashup.backend.tdtd.user.entity.User
 import mashup.backend.tdtd.user.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(private val userRepository: UserRepository) {
@@ -23,4 +24,10 @@ class UserService(private val userRepository: UserRepository) {
 
     fun createUser(deviceId: String, userName: String): User =
         userRepository.save(User(deviceId = deviceId, userName = userName))
+
+    @Transactional
+    fun updateUserLastUsedAt(deviceId: String) {
+        val user: User = getUserByDeviceId(deviceId)
+        user.updateLastUsedAt()
+    }
 }
