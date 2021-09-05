@@ -49,7 +49,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp tdtd.zip s3://tdtd-bucket/TDTD-Deploy/tdtd.zip --region ap-northeast-2
+        run: aws s3 cp tdtd.zip s3://tdtd-bucket-2/TDTD-Deploy/tdtd.zip --region ap-northeast-2
 
       - name: Code Deploy
-        run: aws deploy create-deployment --application-name TDTD --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name tdtd-deploy-group --s3-location bucket=tdtd-bucket,bundleType=zip,key=TDTD-Deploy/tdtd.zip
+        run: aws deploy create-deployment --application-name TDTD --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name tdtd-deploy-group --s3-location bucket=tdtd-bucket-2,bundleType=zip,key=TDTD-Deploy/tdtd.zip
