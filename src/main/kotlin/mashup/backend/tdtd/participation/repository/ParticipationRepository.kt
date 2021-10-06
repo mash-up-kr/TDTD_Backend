@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query
 
 interface ParticipationRepository : JpaRepository<Participation, Long> {
     fun findByRoomIdAndUserId(roomId: Long, userId: Long): Participation?
+    fun existsByRoomIdAndUserId(roomId: Long, userId: Long): Boolean
     fun findByUserId(userId: Long): List<Participation>
     fun findByUserIdAndBookmark(userId: Long, bookmark: Boolean): List<Participation>
     @Query(value = "select * from participation group by rand() LIMIT 1", nativeQuery = true)
