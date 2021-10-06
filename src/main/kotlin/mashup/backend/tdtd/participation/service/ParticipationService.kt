@@ -18,8 +18,8 @@ class ParticipationService(
     fun saveParticipation(deviceId: String, roomCode: String) {
         val userId: Long = userService.getUserByDeviceId(deviceId).id!!
         val roomId: Long = roomService.getRoomByRoomCode(roomCode).id!!
-        participationRepository.findByRoomIdAndUserId(roomId, userId)
-            ?: participationRepository.save(Participation(roomId = roomId, userId = userId))
+        if (!participationRepository.existsByRoomIdAndUserId(roomId, userId))
+            participationRepository.save(Participation(roomId = roomId, userId = userId))
     }
 
     @Transactional
